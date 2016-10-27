@@ -5,17 +5,26 @@
  */
 package servidorbd;
 
+import conexao.Servidor;
+import java.net.Socket;
+
 /**
  *
  * @author gabrielkr
  */
 public class ServidorBD {
+    
+    private static int cli_porta = 2006; // Porta onde os clientes devem se conectar para acessar o banco
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        while(true)
+        {
+            try {
+            Socket conexao = Servidor.aguardar_conexao(cli_porta);
+            } catch(Exception e) {
+                System.out.println("Erro inesperado: "+e.getMessage());
+            }
+        }
     }
     
 }
