@@ -10,5 +10,12 @@ package conexao;
  * @author gabrielkr
  */
 public class ClienteBanco {
+
+    public ClienteBanco() {
+    }
+    
+    public void executar_sql() {
+        
+    }
     
 }

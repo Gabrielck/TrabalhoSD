@@ -16,15 +16,28 @@ import java.net.Socket;
  */
 public class Servidor {
     
-    /**
-     * Estabelece comunicação com o servid
-     * @param porta
-     * @return
-     * @throws Exception 
-     */
-    public static Socket aguardar_conexao(int porta) throws Exception {
+    public static Servidor aguardar_conexao(int porta) throws Exception {
         ServerSocket ss;
         ss = new ServerSocket(porta);
-        return ss.accept();
+        return new Servidor(ss.accept());
     }
+    
+    private Socket con;
+
+    public Servidor(Socket con) {
+        this.con = con;
+    }
+    
+    public void enviarPacote(PacoteBD pac) {
+        
+    }
+    
+    public PacoteBD aguardarPacote() {
+        return null;
+    }
+    
+    public void desconectar() {
+        
+    }
+    
 }
