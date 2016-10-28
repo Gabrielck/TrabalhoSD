@@ -1,24 +1,23 @@
-package bancoInterface;
-
-
-import bancoInterface.Frase;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package bancoInterface;
 
 /**
  *
  * @author gabrielkr
  */
-class PacoteBD {
+public class PacoteBD {
     private Integer acao;
     private String info;
-    private Frase obj;
+    private Frase obj[];
 
-    public PacoteBD(Integer acao, String info, Frase obj) {
+    public PacoteBD() {
+    }
+
+    public PacoteBD(Integer acao, String info, Frase[] obj) {
         this.acao = acao;
         this.info = info;
         this.obj = obj;
@@ -40,13 +39,11 @@ class PacoteBD {
         this.info = info;
     }
 
-    public Frase getObj() {
+    public Frase[] getObj() {
         return obj;
     }
 
-    public void setObj(Frase obj) {
+    public void setObj(Frase[] obj) {
         this.obj = obj;
     }
-    
-    
 }

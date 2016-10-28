@@ -5,6 +5,8 @@ package bancoInterface;
  * @author gabrielkr
  */
 public class BancoDeDados {
+    private static String host = "127.0.0.1";
+    private static Integer port = 2006;
     /**
      * Função para inserir uma frase no banco de dados.
      * Este método possui 2 parâmetros.
@@ -15,8 +17,19 @@ public class BancoDeDados {
      * Insere a frase "Ola mundo" no banco de dados do tipo 1 (Motivação).
      */
     public static void inserir(String frase, Integer tipo) throws Exception
-    {
-        
+    {/*
+        Conexao con = Conexao.conectar(host, port);
+        PacoteBD pac = new PacoteBD();
+
+        pac.setAcao(1); // Ação inserir
+
+        Frase obj[] = new Frase[1];
+        obj[0].setFrase(frase);
+        obj[0].setTipo(tipo);
+        pac.setObj(obj);
+        con.enviarPacote(pac);
+        pac = con.aguardarPacote();
+        con.desconectar();*/
     }
     
     /**
