@@ -27,7 +27,9 @@ public class Conexao {
     
     public static Conexao conectar(String host, int porta) throws Exception {
         InetAddress ip = InetAddress.getByName(host);
+        System.out.println("Teste");
         Socket soc = new Socket(ip, porta);
+        System.out.println("Conectou porra");
         return new Conexao(soc);
     }
     

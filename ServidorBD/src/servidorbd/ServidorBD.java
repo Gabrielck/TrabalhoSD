@@ -22,6 +22,7 @@ public class ServidorBD {
         {
             try {
                 Conexao conexao = Conexao.aguardar_conexao(cli_porta);
+                System.out.println("Estabelecendo conexão");
                 ThreadConexao th = new ThreadConexao(conexao);
                 th.run();
             } catch(Exception e) {

@@ -5,7 +5,7 @@ package bancoInterface;
  * @author gabrielkr
  */
 public class BancoDeDados {
-    private static String host = "127.0.0.1";
+    private static String host = "localhost";
     private static Integer port = 2006;
     /**
      * Função para inserir uma frase no banco de dados.
@@ -17,7 +17,7 @@ public class BancoDeDados {
      * Insere a frase "Ola mundo" no banco de dados do tipo 1 (Motivação).
      */
     public static void inserir(String frase, Integer tipo) throws Exception
-    {/*
+    {
         Conexao con = Conexao.conectar(host, port);
         PacoteBD pac = new PacoteBD();
 
@@ -29,7 +29,7 @@ public class BancoDeDados {
         pac.setObj(obj);
         con.enviarPacote(pac);
         pac = con.aguardarPacote();
-        con.desconectar();*/
+        con.desconectar();
     }
     
     /**
@@ -45,7 +45,19 @@ public class BancoDeDados {
      */
     public static void alterar(Integer id, String frase, Integer tipo) throws Exception
     {
-        
+        Conexao con = Conexao.conectar(host, port);
+        PacoteBD pac = new PacoteBD();
+
+        pac.setAcao(2); // Ação alterar
+
+        Frase obj[] = new Frase[1];
+        obj[0].setId(id);
+        obj[0].setFrase(frase);
+        obj[0].setTipo(tipo);
+        pac.setObj(obj);
+        con.enviarPacote(pac);
+        pac = con.aguardarPacote();
+        con.desconectar();
     }
     
     /**
@@ -62,7 +74,18 @@ public class BancoDeDados {
      */
     public static Boolean exluir(Integer id) throws Exception
     {
-        return true;
+        Conexao con = Conexao.conectar(host, port);
+        PacoteBD pac = new PacoteBD();
+
+        pac.setAcao(3); // Ação excluir
+
+        Frase obj[] = new Frase[1];
+        obj[0].setId(id);
+        pac.setObj(obj);
+        con.enviarPacote(pac);
+        pac = con.aguardarPacote();
+        con.desconectar();
+        return (pac.getAcao()==1);
     }
     
     /**
@@ -79,7 +102,18 @@ public class BancoDeDados {
      */
     public static Frase consulta(Integer id) throws Exception
     {
-        return new Frase(id,"Frase lorem ipsum",4);
+        Conexao con = Conexao.conectar(host, port);
+        PacoteBD pac = new PacoteBD();
+
+        pac.setAcao(4); // Ação consultar
+
+        Frase obj[] = new Frase[1];
+        obj[0].setId(id);
+        pac.setObj(obj);
+        con.enviarPacote(pac);
+        pac = con.aguardarPacote();
+        con.desconectar();
+        return pac.getObj()[0];
     }
     
     /**
@@ -95,10 +129,18 @@ public class BancoDeDados {
      */
     public static Frase[] lista_tipo(Integer tipo) throws Exception
     {
-        Frase ret[] = new Frase[2];
-        ret[0].setFrase("ABC");
-        ret[1].setFrase("ASDFASDF");
-        return ret;
+        Conexao con = Conexao.conectar(host, port);
+        PacoteBD pac = new PacoteBD();
+
+        pac.setAcao(5); // Ação lista_tipo
+
+        Frase obj[] = new Frase[1];
+        obj[0].setTipo(tipo);
+        pac.setObj(obj);
+        con.enviarPacote(pac);
+        pac = con.aguardarPacote();
+        con.desconectar();
+        return pac.getObj();
     }
     
     /**
@@ -113,6 +155,18 @@ public class BancoDeDados {
      */
     public static Frase mensagem(Integer tipo) throws Exception
     {
-        return new Frase(1,"Minha frase aleatória",tipo);
+        Conexao con = Conexao.conectar(host, port);
+        PacoteBD pac = new PacoteBD();
+
+        pac.setAcao(6); // Ação lista_tipo
+
+        Frase obj[] = new Frase[1];
+        obj[0].setTipo(tipo);
+        pac.setObj(obj);
+        con.enviarPacote(pac);
+        pac = con.aguardarPacote();
+        con.desconectar();
+        return pac.getObj()[0];
     }
+
 }
