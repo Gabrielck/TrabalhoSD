@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="../public/css/angular-material.min.css">
+
+	<script src="../public/js/angular.min.js"></script>
+  <script src="../public/js/angular-animate.min.js"></script>
+  <script src="../public/js/angular-aria.min.js"></script>
+  <script src="../public/js/angular-messages.min.js"></script>
+  <!-- Angular Material Library -->
+  <script src="../public/js/angular-material.min.js"></script>
+
+	<script type="text/javascript" src="../scripts/app.js"></script>
+
+	<script src="../scripts/controllers/main.js"></script>
+	<script src="../scripts/services/main.js"></script>
+
+	<title></title>
+</head>
+<body ng-app="trabalhoSD">
+<div ng-controller="mainController">
+
+
+	<table class="table">
+            <tbody>
+                <thead>
+                    <tr>
+                        <td><b>Nome</b></td>
+                        <td><b>Email</b></td>
+                    </tr>
+                </thead>
+
+                <tr ng-repeat="usuario in usuarios">
+                    <td>{{usuario.nome}}</td>
+                    <td>{{usuario.email}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+		 	
+
+		<md-input-container>
+			<label>Nome</label>
+			<input ng-model="usuario.nome">
+		</md-input-container>
+		<md-input-container>
+			<label>Email</label>
+			<input ng-model="usuario.email">
+		</md-input-container>
+      			
+
+		<md-button class="md-raised md-primary" ng-click="adicionarUsuario(usuario)">Adicionar</md-button>
+
+</div>
+
+</body>
+</html>
