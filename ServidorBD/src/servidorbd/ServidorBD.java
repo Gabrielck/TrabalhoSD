@@ -5,7 +5,7 @@
  */
 package servidorbd;
 
-import conexao.Servidor;
+import conexao.Conexao;
 import java.net.Socket;
 
 /**
@@ -21,7 +21,7 @@ public class ServidorBD {
         while(true)
         {
             try {
-                Servidor conexao = Servidor.aguardar_conexao(cli_porta);
+                Conexao conexao = Conexao.aguardar_conexao(cli_porta);
                 ThreadConexao th = new ThreadConexao(conexao);
                 th.run();
             } catch(Exception e) {
