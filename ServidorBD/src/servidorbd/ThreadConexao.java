@@ -7,6 +7,7 @@ package servidorbd;
 
 import java.net.Socket;
 import bancoInterface.Conexao;
+import bancoInterface.Frase;
 import bancoInterface.PacoteBD;
 
 /**
@@ -56,33 +57,45 @@ public class ThreadConexao extends Thread {
     }
 
     private PacoteBD acao_inserir(PacoteBD dados) {
+        System.out.println("Inseriu frase: "+dados.getObj()[0].getFrase());
         return null;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private PacoteBD acao_alterar(PacoteBD dados) {
+        System.out.println("Alterou frase: "+dados.getObj()[0].getId());
         return null;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private PacoteBD acao_excluir(PacoteBD dados) {
         return null;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private PacoteBD acao_consulta(PacoteBD dados) {
-        return null;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Consultar frase: "+dados.getObj()[0].getId());
+        Frase[] f = new Frase[1];
+        f[0] = new Frase(5,"Frase no banco",1);
+        PacoteBD pac = new PacoteBD();
+        pac.setObj(f);
+        return pac;
     }
 
     private PacoteBD acao_lista_tipo(PacoteBD dados) {
-        return null;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Consultar frase: tipo "+dados.getObj()[0].getTipo());
+        Frase[] f = new Frase[2];
+        f[0] = new Frase(5,"Frase no banco 1",1);
+        f[1] = new Frase(6,"Frase no banco 2",1);
+        PacoteBD pac = new PacoteBD();
+        pac.setObj(f);
+        return pac;
     }
 
     private PacoteBD acao_mensagem_aleatoria(PacoteBD dados) {
-        return null;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Consultar frase: tipo "+dados.getObj()[0].getTipo());
+        Frase[] f = new Frase[2];
+        f[0] = new Frase(1,"Mensagem ALEATORIA",1);
+        PacoteBD pac = new PacoteBD();
+        pac.setObj(f);
+        return pac;
     }
 
 }
