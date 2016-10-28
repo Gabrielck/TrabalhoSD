@@ -4,7 +4,7 @@ package bancoInterface;
  *
  * @author gabrielkr
  */
-public class Frase {
+public class Frase implements java.io.Serializable {
     private Integer id;
     private String frase;
     private Integer tipo;

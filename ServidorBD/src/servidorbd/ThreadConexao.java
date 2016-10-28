@@ -6,8 +6,8 @@
 package servidorbd;
 
 import java.net.Socket;
-import conexao.Conexao;
-import conexao.PacoteBD;
+import bancoInterface.Conexao;
+import bancoInterface.PacoteBD;
 
 /**
  *
@@ -23,8 +23,8 @@ public class ThreadConexao extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Conexão estabelecida");
         try {
+            System.out.println("Nova conexao estabelecida com "+conexao.getName());
             PacoteBD dados = conexao.aguardarPacote();
             PacoteBD retorno = null;
             switch(dados.getAcao())
@@ -51,32 +51,38 @@ public class ThreadConexao extends Thread {
             conexao.enviarPacote(retorno);
             conexao.desconectar();
         } catch(Exception e)  {
-            System.out.println("Erro inesperado: "+e.getMessage());
+            System.out.println("!!! ERRO: "+e.getMessage());
         }
     }
 
     private PacoteBD acao_inserir(PacoteBD dados) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private PacoteBD acao_alterar(PacoteBD dados) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private PacoteBD acao_excluir(PacoteBD dados) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private PacoteBD acao_consulta(PacoteBD dados) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private PacoteBD acao_lista_tipo(PacoteBD dados) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private PacoteBD acao_mensagem_aleatoria(PacoteBD dados) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

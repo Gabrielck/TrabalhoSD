@@ -21,9 +21,10 @@ public class BancoDeDados {
         Conexao con = Conexao.conectar(host, port);
         PacoteBD pac = new PacoteBD();
 
-        pac.setAcao(1); // Ação inserir
-
+        pac.setAcao(1); // Ação incluir
+ 
         Frase obj[] = new Frase[1];
+        obj[0] = new Frase();
         obj[0].setFrase(frase);
         obj[0].setTipo(tipo);
         pac.setObj(obj);

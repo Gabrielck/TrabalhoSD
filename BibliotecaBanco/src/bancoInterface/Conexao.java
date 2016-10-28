@@ -18,18 +18,17 @@ import java.net.UnknownHostException;
  * @author gabrielkr
  */
 public class Conexao {
+    private static ServerSocket ss = null;
     
     public static Conexao aguardar_conexao(int porta) throws Exception {
-        ServerSocket ss;
-        ss = new ServerSocket(porta);
+        if(ss==null)
+            ss = new ServerSocket(porta);
         return new Conexao(ss.accept());
     }
     
     public static Conexao conectar(String host, int porta) throws Exception {
         InetAddress ip = InetAddress.getByName(host);
-        System.out.println("Teste");
         Socket soc = new Socket(ip, porta);
-        System.out.println("Conectou porra");
         return new Conexao(soc);
     }
     
@@ -39,16 +38,16 @@ public class Conexao {
 
     public Conexao(Socket con) throws Exception {
         this.con = con;
-        entrada = new ObjectInputStream(con.getInputStream());
-        saida = new ObjectOutputStream(con.getOutputStream());
     }
     
     public void enviarPacote(PacoteBD pac) throws Exception {
+        saida = new ObjectOutputStream(con.getOutputStream());
         saida.writeObject(pac);
         saida.flush();
     }
     
     public PacoteBD aguardarPacote() throws Exception {
+        entrada = new ObjectInputStream(con.getInputStream());
         return (PacoteBD)entrada.readObject();
     }
     
@@ -56,4 +55,7 @@ public class Conexao {
         con.close();
     }
     
+    public String getName() throws Exception {
+        return con.getInetAddress().getHostAddress();
+    }
 }

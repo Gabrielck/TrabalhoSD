@@ -5,7 +5,8 @@
  */
 package servidorbd;
 
-import conexao.Conexao;
+import bancoInterface.Conexao;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -13,22 +14,16 @@ import java.net.Socket;
  * @author gabrielkr
  */
 public class ServidorBD {
-    
+
     private static int cli_porta = 2006; // Porta onde os clientes devem se conectar para acessar o banco
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println("Servidor de gerenciamento de conexões com o banco de dados");
-        while(true)
-        {
-            try {
+            while (true) {
                 Conexao conexao = Conexao.aguardar_conexao(cli_porta);
-                System.out.println("Estabelecendo conexão");
                 ThreadConexao th = new ThreadConexao(conexao);
                 th.run();
-            } catch(Exception e) {
-                System.out.println("Erro inesperado: "+e.getMessage());
             }
-        }
     }
-    
+
 }

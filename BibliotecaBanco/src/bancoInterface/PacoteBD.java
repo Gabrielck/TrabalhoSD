@@ -9,7 +9,7 @@ package bancoInterface;
  *
  * @author gabrielkr
  */
-public class PacoteBD {
+public class PacoteBD implements java.io.Serializable {
     private Integer acao;
     private String info;
     private Frase obj[];
