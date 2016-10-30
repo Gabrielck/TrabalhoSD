@@ -15,7 +15,7 @@ import java.net.Socket;
  */
 public class ServidorBD {
 
-    private static int cli_porta = 2006; // Porta onde os clientes devem se conectar para acessar o banco
+    private static int cli_porta = 8080; // Porta onde os clientes devem se conectar para acessar o banco
 
     public static void main(String[] args) throws Exception {
         System.out.println("Servidor de gerenciamento de conexões com o banco de dados");
