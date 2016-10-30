@@ -5,8 +5,8 @@ package bancoInterface;
  * @author gabrielkr
  */
 public class BancoDeDados {
-    private static String host = "localhost";
-    private static Integer port = 2006;
+    private static String host = "gabrielkressin.ddns.net";
+    private static Integer port = 8080;
     /**
      * Função para inserir uma frase no banco de dados.
      * Este método possui 2 parâmetros.
@@ -40,11 +40,12 @@ public class BancoDeDados {
      * Integer id = O id da frase que está no banco de dados que você deseja alterar.
      * String frase = A nova frase que você deseja colocar no lugar.
      * Integer tipo = O tipo dessa nova frase.
+     * Valor de retorno: A função retorna true caso a frase exista ou false caso não exista
      * Exemplo:
      * BancoDeDados.alterar(4,"Tchau mundo!",2);
      * Altera a frase com o id 4 para "Tchau mundo!", e o tipo dela para 2 (Felicitações).
      */
-    public static void alterar(Integer id, String frase, Integer tipo) throws Exception
+    public static Boolean alterar(Integer id, String frase, Integer tipo) throws Exception
     {
         Conexao con = Conexao.conectar(host, port);
         PacoteBD pac = new PacoteBD();
@@ -52,6 +53,7 @@ public class BancoDeDados {
         pac.setAcao(2); // Ação alterar
 
         Frase obj[] = new Frase[1];
+        obj[0] = new Frase();
         obj[0].setId(id);
         obj[0].setFrase(frase);
         obj[0].setTipo(tipo);
@@ -59,6 +61,7 @@ public class BancoDeDados {
         con.enviarPacote(pac);
         pac = con.aguardarPacote();
         con.desconectar();
+        return (pac.getAcao()!=0);
     }
     
     /**
@@ -81,12 +84,13 @@ public class BancoDeDados {
         pac.setAcao(3); // Ação excluir
 
         Frase obj[] = new Frase[1];
+        obj[0] = new Frase();
         obj[0].setId(id);
         pac.setObj(obj);
         con.enviarPacote(pac);
         pac = con.aguardarPacote();
         con.desconectar();
-        return (pac.getAcao()==1);
+        return (pac.getAcao()!=0);
     }
     
     /**
@@ -109,6 +113,7 @@ public class BancoDeDados {
         pac.setAcao(4); // Ação consultar
 
         Frase obj[] = new Frase[1];
+        obj[0] = new Frase();
         obj[0].setId(id);
         pac.setObj(obj);
         con.enviarPacote(pac);
@@ -136,6 +141,7 @@ public class BancoDeDados {
         pac.setAcao(5); // Ação lista_tipo
 
         Frase obj[] = new Frase[1];
+        obj[0] = new Frase();
         obj[0].setTipo(tipo);
         pac.setObj(obj);
         con.enviarPacote(pac);
@@ -162,11 +168,14 @@ public class BancoDeDados {
         pac.setAcao(6); // Ação lista_tipo
 
         Frase obj[] = new Frase[1];
+        obj[0] = new Frase();
         obj[0].setTipo(tipo);
         pac.setObj(obj);
         con.enviarPacote(pac);
         pac = con.aguardarPacote();
         con.desconectar();
+        if(pac.getObj().length==0)
+            return null;
         return pac.getObj()[0];
     }
 
