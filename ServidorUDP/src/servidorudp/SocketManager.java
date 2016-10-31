@@ -13,21 +13,42 @@ import java.net.InetAddress;
  *
  * @author Matheus Lyra
  */
-public class SocketManeger {
+public class SocketManager {
+    
+     DatagramPacket pacote;
+     DatagramSocket socket;
+
+    //--------------------------------------
+    public DatagramSocket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(DatagramSocket socket) {
+        this.socket = socket;
+    }
+
+    public DatagramPacket getPacote() {
+        return pacote;
+    }
+
+    public void setPacote(DatagramPacket pacote) {
+        this.pacote = pacote;
+    }
+    //----------------------------------------   
        
-    public static DatagramSocket AbreSocket(int porta) throws Exception{
-        DatagramSocket socket = new DatagramSocket(porta);
+    public DatagramSocket AbreSocket(int porta) throws Exception{
+        this.socket = new DatagramSocket(porta);
         return socket;
     }
     
-    public static DatagramPacket GetMessage(DatagramSocket socket) throws Exception{
+    public DatagramPacket GetMessage() throws Exception{
         byte vet[] = new byte[100];
-        DatagramPacket pacote = new DatagramPacket(vet, vet.length);
-        socket.receive(pacote);
+        this.pacote = new DatagramPacket(vet, vet.length);
+        this.socket.receive(pacote);
         return pacote;
     }
     
-    public static void SendMessage(DatagramSocket socket, DatagramPacket pacote) throws Exception{
+    public void SendMessage(DatagramSocket socket, DatagramPacket pacote) throws Exception{
         // alterar tipo da variavel que recebe provavelmente para um objeto a ser definido com o lider 
         String mensagem = new String(pacote.getData());
         byte vet[] = new byte[100];

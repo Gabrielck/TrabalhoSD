@@ -9,7 +9,7 @@ import bancoInterface.BancoDeDados;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import servidorudp.SocketManeger;
+import servidorudp.SocketManager;
 
 /**
  *
@@ -19,10 +19,17 @@ public class ServidorUDP {
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
-    SocketManeger socket = new SocketManeger();
-    socket.AbreSocket(2006);
+    SocketManager soc = new SocketManager();
+    soc.AbreSocket(2006);
+    
+    while(true){
+      
+      //if(soc.GetMessage()) abrethread p/ montar mensagem
+    }
+    
     }
     
 }
