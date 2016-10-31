@@ -5,10 +5,11 @@
  */
 package servidorudp;
 
+import bancoInterface.BancoDeDados;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import servidorudp.Socket;
+import servidorudp.SocketManeger;
 
 /**
  *
@@ -20,8 +21,7 @@ public class ServidorUDP {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-    
-    Socket socket = new Socket();
+    SocketManeger socket = new SocketManeger();
     socket.AbreSocket(2006);
     }
     
