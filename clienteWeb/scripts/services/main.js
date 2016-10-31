@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('trabalhoSD')  
-  .service('serviceVehicles', ['$http',
+  .service('mainService', ['$http',
     function ($http) {
       //var ipServer = '';
       return {
