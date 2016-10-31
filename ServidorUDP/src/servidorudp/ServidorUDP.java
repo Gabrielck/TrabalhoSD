@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package servidorudp;
 
 import bancoInterface.BancoDeDados;
@@ -25,10 +21,7 @@ public class ServidorUDP {
     SocketManager soc = new SocketManager();
     soc.AbreSocket(2006);
     
-    while(true){
-      
-      //if(soc.GetMessage()) abrethread p/ montar mensagem
-    }
+    soc.GetMessage();
     
     }
     

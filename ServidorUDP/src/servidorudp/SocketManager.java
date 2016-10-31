@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package servidorudp;
 
 import java.net.DatagramPacket;
@@ -15,27 +11,9 @@ import java.net.InetAddress;
  */
 public class SocketManager {
     
-     DatagramPacket pacote;
+     DatagramPacket packet;
      DatagramSocket socket;
 
-    //--------------------------------------
-    public DatagramSocket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(DatagramSocket socket) {
-        this.socket = socket;
-    }
-
-    public DatagramPacket getPacote() {
-        return pacote;
-    }
-
-    public void setPacote(DatagramPacket pacote) {
-        this.pacote = pacote;
-    }
-    //----------------------------------------   
-       
     public DatagramSocket AbreSocket(int porta) throws Exception{
         this.socket = new DatagramSocket(porta);
         return socket;
@@ -43,9 +21,16 @@ public class SocketManager {
     
     public DatagramPacket GetMessage() throws Exception{
         byte vet[] = new byte[100];
-        this.pacote = new DatagramPacket(vet, vet.length);
-        this.socket.receive(pacote);
-        return pacote;
+        packet = new DatagramPacket(vet, vet.length);
+        
+        while(true){                
+            socket.receive(packet);
+            if (packet != null){
+              // abre a thread e monta a mensagem
+              return packet;
+            }
+        }
+
     }
     
     public void SendMessage(DatagramSocket socket, DatagramPacket pacote) throws Exception{
