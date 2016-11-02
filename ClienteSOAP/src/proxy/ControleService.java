@@ -1,9 +1,8 @@
 
-package ClienteSOAP;
+package proxy;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.swing.JOptionPane;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -31,10 +30,8 @@ public class ControleService
         URL url = null;
         WebServiceException e = null;
         try {
-            String leitura = JOptionPane.showInputDialog("Informe o endereço IP, ou localhost?");
-            url = new URL("http://" + leitura + "/soap/?WSDL");
+            url = new URL("http://localhost/soap/?WSDL");
         } catch (MalformedURLException ex) {
-            JOptionPane.showMessageDialog(null, "ERRO ao iniciar cliente, impossivel conectar ao servidor");
             e = new WebServiceException(ex);
         }
         CONTROLESERVICE_WSDL_LOCATION = url;

@@ -3,8 +3,8 @@ package Threads;
 
 
 import ClienteSOAP.ClienteUI;
-import ClienteSOAP.Controle;
-import ClienteSOAP.Frase;
+import proxy.Controle;
+import proxy.Frase;
 import com.sun.istack.internal.FragmentContentHandler;
 import static java.util.Collections.list;
 import java.util.List;

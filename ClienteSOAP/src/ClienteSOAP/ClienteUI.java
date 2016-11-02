@@ -12,6 +12,12 @@ import Threads.ThreadExcluir;
 import Threads.ThreadLista;
 import Threads.ThreadModificar;
 import javax.swing.JOptionPane;
+import proxy.Controle;
+import proxy.ControleService;
+import proxy.Frase;
+
+
+
 
 /**
  *
@@ -166,7 +172,7 @@ public class ClienteUI extends javax.swing.JFrame {
         int id = Integer.parseInt(JOptionPane.showInputDialog("ID"));
         
         ThreadConsulta t;
-        t = new ThreadConsulta(10, this, control);
+        t = new ThreadConsulta(id, this, control);
         t.start();
         
     }//GEN-LAST:event_btnConsultarActionPerformed
@@ -177,12 +183,12 @@ public class ClienteUI extends javax.swing.JFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         String frase = JOptionPane.showInputDialog("frase");
-        int id = Integer.parseInt(JOptionPane.showInputDialog("id"));
+        //int id = Integer.parseInt(JOptionPane.showInputDialog("id"));
         int cat = Integer.parseInt(JOptionPane.showInputDialog("cat"));
         ThreadAdicionar t;
         Frase F = new Frase();
         F.setFrase(frase);
-        F.setId(id);
+        F.setId(0);
         F.setTipo(cat);
         t = new ThreadAdicionar(F, this, control);
         t.start();

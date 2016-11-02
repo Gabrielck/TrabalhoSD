@@ -3,8 +3,8 @@ package Threads;
 
 
 import ClienteSOAP.ClienteUI;
-import ClienteSOAP.Controle;
-import ClienteSOAP.Frase;
+import proxy.Controle;
+import proxy.Frase;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

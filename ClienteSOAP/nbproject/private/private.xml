@@ -3,17 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/Threads/ThreadConsulta.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/ClienteSOAP/ClienteUI.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/Threads/ThreadAdicionar.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/Threads/ThreadAleatorio.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/ClienteSOAP/FraseArray.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/Threads/ThreadLista.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/ClienteSOAP/Controle.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/Threads/ThreadModificar.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/Threads/ThreadExcluir.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/ClienteSOAP/Cliente.java</file>
-            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/Trabalho%20FINAL/ClienteSOAP/src/ClienteSOAP/ControleService.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/proxy/package-info.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/Threads/ThreadAleatorio.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/Threads/ThreadConsulta.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/ClienteSOAP/Cliente.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/proxy/Controle.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/Threads/ThreadLista.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/Threads/ThreadAdicionar.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/proxy/FraseArray.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/Threads/ThreadExcluir.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/Threads/ThreadModificar.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/ClienteSOAP/ClienteUI.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/proxy/ObjectFactory.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/proxy/ControleService.java</file>
+            <file>file:/C:/Users/lucas/Desktop/trabalho%20SD/git3/TrabalhoSD/ClienteSOAP/src/proxy/Frase.java</file>
         </group>
     </open-files>
 </project-private>

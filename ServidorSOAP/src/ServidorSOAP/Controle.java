@@ -4,8 +4,8 @@ package ServidorSOAP;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import BD.BancoDeDados;
-import BD.Frase;
+import bancoInterface.BancoDeDados;
+import bancoInterface.Frase;
 import java.util.Random;
 import javax.swing.JOptionPane;
 

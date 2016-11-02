@@ -6,7 +6,9 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.swing.JOptionPane;
-
+import proxy.Controle;
+import proxy.ControleService;
+import proxy.Frase;
 
 public class Cliente {
 
