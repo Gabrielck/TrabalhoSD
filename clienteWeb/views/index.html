@@ -1,60 +1,139 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
 
-	<link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
 
-	<link rel="stylesheet" href="../public/css/angular-material.min.css">
+  	<link rel="stylesheet" href="../public/css/bootstrap.min.css">
 
-	<script src="../public/js/angular.min.js"></script>
-  <script src="../public/js/angular-animate.min.js"></script>
-  <script src="../public/js/angular-aria.min.js"></script>
-  <script src="../public/js/angular-messages.min.js"></script>
-  <!-- Angular Material Library -->
-  <script src="../public/js/angular-material.min.js"></script>
+  	<link rel="stylesheet" href="../public/css/angular-material.min.css">
 
-	<script type="text/javascript" src="../scripts/app.js"></script>
+    <link rel="stylesheet" href="../public/css/menuLateral.css">
 
-	<script src="../scripts/controllers/main.js"></script>
-	<script src="../scripts/services/main.js"></script>
+  	<script src="../public/js/angular.min.js"></script>
+    <script src="../public/js/angular-animate.min.js"></script>
+    <script src="../public/js/angular-aria.min.js"></script>
+    <script src="../public/js/angular-messages.min.js"></script>
+    <!-- Angular Material Library -->
+    <script src="../public/js/angular-material.min.js"></script>
 
-	<title></title>
-</head>
-<body ng-app="trabalhoSD">
-<div ng-controller="mainController">
+  	<script type="text/javascript" src="../scripts/app.js"></script>
 
+  	<script src="../scripts/controllers/main.js"></script>
+  	<script src="../scripts/services/main.js"></script>
 
-	<table class="table">
+  	<title></title>
+  </head>
+  <body ng-app="trabalhoSD" ng-controller="mainController">
+    <!-- MENU LATERAL-->
+    <nav class="navbar navbar-default sidebar" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>      
+        </div>
+        <!-- glyphicon glyphicon-grain -->
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><h4 style="text-align: center">Selecione um Tipo</h4><span style="font-size:16px;" class="pull-right hidden-xs showopacity "></span></li>
+            <li ng-click="selectTipo(1)"><a href="#">Motivação<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-handshake-o"></span></a></li>
+            <li ng-click="selectTipo(2)"><a href="#">Felicitações<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-thumbs-o-up"></span></a></li>
+            <li ng-click="selectTipo(3)"><a href="#">Saudade<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-map-marker"></span></a></li>
+            <li ng-click="selectTipo(4)"><a href="#">Superação de Problemas<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-bolt"></span></a></li>
+            <li ng-click="selectTipo(5)"><a href="#">Amor<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-heart"></span></a></li>
+            <li ng-click="selectTipo(6)"><a href="#">Experiências de Vida<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-lightbulb-o"></span></a></li>
+            <li ng-click="selectTipo(7)"><a href="#">Caráter<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-smile-o"></span></a></li>
+            <li ng-click="selectTipo(8)"><a href="#">Top (as mais requisitadas)<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-fire"></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- MENU LATERAL-->
+    <br>
+    <h2 style="text-align: center;">Bem-Vindo a Base de Belas Mensagens</h2>
+    <hr>
+    <div style="display:flex">
+
+      <!-- Conteúdo -->
+      <div style="padding-left: 50px; width:100%;" ng-show="tipo != 0">
+        <h1 style="text-align: center;" ng-show="tipo == 1">Mensagens de Motivação</h1>
+        <h1 style="text-align: center;" ng-show="tipo == 2">Mensagens de Felicitações</h1>
+        <h1 style="text-align: center;" ng-show="tipo == 3">Mensagens de Saudade</h1>
+        <h1 style="text-align: center;" ng-show="tipo == 4">Mensagens de Superação de Problemas</h1>
+        <h1 style="text-align: center;" ng-show="tipo == 5">Mensagens de Amor</h1>
+        <h1 style="text-align: center;" ng-show="tipo == 6">Mensagens de Experiências de Vida</h1>
+        <h1 style="text-align: center;" ng-show="tipo == 7">Mensagens de Caráter</h1>
+        <h1 style="text-align: center;" ng-show="tipo == 8">Mensagens Top (as mais requisitadas)</h1>
+        <md-button class="md-primary md-raised" ng-click="openModalCreateMessage()">
+          Nova Mensagem
+        </md-button>
+        <div class="row">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <td><b>Mensagem</b></td>
+                <td><b>Tipo</b></td>
+                <td align="center"><b>Editar</b></td>
+                <td align="center"><b>Excluir</b></td>
+              </tr>
+            </thead>
+
             <tbody>
-                <thead>
-                    <tr>
-                        <td><b>Nome</b></td>
-                        <td><b>Email</b></td>
-                    </tr>
-                </thead>
-
-                <tr ng-repeat="usuario in usuarios">
-                    <td>{{usuario.nome}}</td>
-                    <td>{{usuario.email}}</td>
-                </tr>
-
+              <tr ng-repeat="message in messages.messages">
+                <td>{{message.description}}</td>
+                <td>{{message.type}}</td>
+                <td align="center">
+                  <span class="fa fa-pencil-square-o" aria-hidden="true" ng-click="openModalCreate(message)"></span>
+                </td>
+                <td align="center">
+                  <span class="fa fa-trash" aria-hidden="true" ng-click="removeMessage(message)"></span>
+                </td>
+              </tr>
             </tbody>
-        </table>
-		 	
+          </table>
+        </div>
+      </div>
 
-		<md-input-container>
-			<label>Nome</label>
-			<input ng-model="usuario.nome">
-		</md-input-container>
-		<md-input-container>
-			<label>Email</label>
-			<input ng-model="usuario.email">
-		</md-input-container>
-      			
+    </div>
 
-		<md-button class="md-raised md-primary" ng-click="adicionarUsuario(usuario)">Adicionar</md-button>
+   <!--  <div ng-controller="mainController">
 
-</div>
+    	<table class="table">
+        <tbody>
+          <thead>
+            <tr>
+              <td><b>Nome</b></td>
+              <td><b>Email</b></td>
+            </tr>
+          </thead>
 
-</body>
+          <tr ng-repeat="usuario in usuarios">
+            <td>{{usuario.nome}}</td>
+            <td>{{usuario.email}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+    		 	
+
+    	<md-input-container>
+    		<label>Nome</label>
+    		<input ng-model="usuario.nome">
+    	</md-input-container>
+    	<md-input-container>
+    		<label>Email</label>
+    		<input ng-model="usuario.email">
+    	</md-input-container>
+          			
+
+    	<md-button class="md-raised md-primary" ng-click="adicionarUsuario(usuario)">Adicionar</md-button>
+      <md-button class="md-raised md-primary" ng-click="testeAdicionar()">Adicionar</md-button>
+
+    </div> -->
+
+  </body>
 </html>

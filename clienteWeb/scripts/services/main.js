@@ -3,9 +3,9 @@
 angular.module('trabalhoSD')  
   .service('mainService', ['$http',
     function ($http) {
-      //var ipServer = '';
+      var ipServer = 'http://localhost:8080/ServidorWeb/webresources/comunicacaoWS';
       return {
-        query: function (success, error) { 
+        query: function (success, error) {
           $http.get(ipServer).success(success).error(error);
         },
         get: function (success, error) {

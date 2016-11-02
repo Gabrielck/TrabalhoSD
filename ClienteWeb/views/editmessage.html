@@ -1,0 +1,42 @@
+<div style="width: 600px">
+  <md-dialog>
+    <form>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h2 ng-show="message._id">Detalhes da Mensagem</h2>
+          <h2 ng-show="!message._id">Nova Mensagem</h2>
+          <span flex></span>
+          <md-button class="md-icon-button" ng-click="cancel()">         
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-dialog-content>
+        <div class="md-dialog-content">
+          
+          <md-input-container  class="md-block">
+            <label>Descrição</label>
+            <input ng-model="message.description">
+          </md-input-container>
+
+          <md-input-container  class="md-block">
+            <label>Tipo</label>
+            <input ng-model="message.type">
+          </md-input-container>
+        </div>
+
+      </md-dialog-content>
+
+      <md-dialog-actions layout="row">
+        <md-button ng-click="createNewMessage(message)" ng-show="!message._id">
+          Adicionar
+        </md-button>
+        <md-button ng-click="saveMessage(message)" ng-show="message._id">
+          Salvar
+        </md-button>
+        <md-button ng-click="answer('close')">
+          Cancelar
+        </md-button>
+      </md-dialog-actions>
+    </form>
+  </md-dialog>
+</div>

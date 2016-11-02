@@ -1,31 +1,114 @@
-angular.module("trabalhoSD").controller("mainController", function($scope,  mainService) {   
+angular.module("trabalhoSD").controller("mainController", function($scope, $mdDialog,  mainService) {   
 
-    //teste
-    $scope.usuarios = [
-      {nome: "José", email: "jose@mail.com.br"},
-      {nome: "Maria", email: "maria@mail.com.br"},
-      {nome: "Ana", email: "ana@mail.com.br"},
-    ];
+    $scope.tipo = 0;
 
-    $scope.adicionarUsuario = function(usuario) {
-      $scope.usuarios.push(usuario);
-      
-      delete $scope.usuario;
+    $scope.selectTipo = function(tipo){
+      console.log("Tipo " + tipo + " selecionado");
+      $scope.tipo = tipo;
+      if(tipo == 1)
+      {
+        //Isso é a simulação de um get
+        $scope.messages = {
+          "messages": 
+          [
+            {
+              "description": "Mensagem de Motivação 1",
+              "type": "Motivação"
+            },
+            {
+              "description": "Mensagem de Motivação 2",
+              "type": "Motivação"
+            }
+          ]
+        }
+      }
+      if(tipo != 1)
+      {
+        //Isso é a simulação de um get
+        $scope.messages = null;
+      }
+      console.log($scope.messages.messages);
     };
 
+    var getMessages = function() {
+      mainService.query(function(data) {
+        $scope.messages = data.value;
+      },function(err){
+      });
+    }
+    getMessages();
 
-    $scope.getUsuariosServer = function() {
-      mainService.get().then(function(res){            
-          $scope.usuarios = res.data;     
+    var newMessage;
+    $scope.openModalCreateMessage = function(messsage){
+      console.log("teste");
+      newMessage = messsage;
+
+      $mdDialog.show({
+        locals:{
+          dataToPass: messsage
+        }, 
+        controller: controllerNewMessageModal,
+        templateUrl: '../views/editmessage.html',
+        clickOutsideToClose: true,
+        fullscreen: $scope.customFullscreen
+      }).then(function(answer) {
+      }, function() {
       });
     };
 
-    //$scope.getUsuariosServer();
+    function controllerNewMessageModal($scope, $mdDialog) {
 
-    $scope.adicionarUsuarioServer = function(usuario) {
-      mainService.post(usuario).then(function(res){
-          $scope.getUsuarios();
-          delete $scope.usuario;
+      if(newMessage) {
+        $scope.message = newDisease;
+      }
+
+      $scope.saveMessage = function(message) {
+        mainService.edit(message._id, message, function(data) {
+          $scope.cancel();
+          getMessages();
+        }, function(err){
+          console.log('error saving message',err);
+        });
+      };
+
+      $scope.createNewMessage = function(message){
+        mainService.save(message, function(data){
+          $scope.cancel();
+          getMessages();
+        }, function(err){
+          console.log(err);
+        });
+      };
+
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
+      $scope.answer = function(answer) {
+        getMessages();
+        $mdDialog.hide(answer);
+      };
+    }
+
+    $scope.removeMessage = function(message) {
+      var title = 'Deseja remover a mensagem ' + message.description + '?';
+      var windowRemoveMessage = $mdDialog.confirm()
+        .title(title)
+        .textContent('')
+        .ariaLabel('Lucky day')
+        .ok('Sim')
+        .cancel('Não');
+
+      $mdDialog.show(windowRemoveMessage).then(function() {
+        mainService.delete(message._id, function(data){
+          getMessages();
+        }, function(err) {
+          console.log('error removing messages', err);
+        });
+
+      }, function() {
       });
     };
 });
