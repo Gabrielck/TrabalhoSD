@@ -7,6 +7,7 @@ import proxy.Controle;
 import proxy.Frase;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class ThreadModificar extends Thread 
 {
@@ -39,7 +40,11 @@ public class ThreadModificar extends Thread
             UI.setStatus("OK");
         }
         else
+        {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar");
             UI.setStatus("ERRO");
+        }
+            
         UI.bloquear(true);
     }
 }

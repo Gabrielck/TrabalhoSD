@@ -15,9 +15,6 @@ public class Servidor {
         {
             Endpoint.publish(url, new Controle());
             JOptionPane.showMessageDialog(null, "Servidor iniciado\nURL: " + url + "?WSDL");
-            bancoInterface.Frase f;
-            f = bancoInterface.BancoDeDados.consulta(10);
-            System.out.println(f.getFrase());
         }
         catch(Exception E)
         {

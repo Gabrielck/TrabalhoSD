@@ -23,7 +23,7 @@ public class Controle {
         }
         catch (Exception E)
         {
-            JOptionPane.showMessageDialog(null, "Erro em consulta");
+            
             E.printStackTrace();
             f.setId(-1);
             return f;
@@ -40,7 +40,7 @@ public class Controle {
         }
         catch(Exception E)
         {
-            JOptionPane.showMessageDialog(null, "Erro ao adicionar");
+            
             E.printStackTrace();
             return false;
         }
@@ -53,11 +53,12 @@ public class Controle {
     {
         try
         {
+            BancoDeDados.consulta(id);
             BancoDeDados.alterar(id, mensagem, tipo);
         }
         catch(Exception E)
         {
-            JOptionPane.showMessageDialog(null, "Erro ao alterar");
+            
             E.printStackTrace();
             return false;
         }
@@ -69,11 +70,12 @@ public class Controle {
     {
         try
         {
+            BancoDeDados.consulta(id);
             BancoDeDados.exluir(id);
         }
         catch(Exception E)
         {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir");
+            
             E.printStackTrace();
             return false;
         }
@@ -85,12 +87,13 @@ public class Controle {
     {
         try
         {
-             
+             if(categoria < 1 || categoria > 8)
+                 throw new Exception();
             return BancoDeDados.lista_tipo(categoria);
         }
         catch(Exception E)
         {
-            JOptionPane.showMessageDialog(null, "Erro na operação lista-tipo");
+            
             E.printStackTrace();
             Frase[]f = new Frase[0];
             return f; 
@@ -102,13 +105,18 @@ public class Controle {
     {
         try
         {
+            if(categoria < 1 || categoria > 8)
+                 throw new Exception();
+            
             Frase[] frases = BancoDeDados.lista_tipo(categoria);
             Random R = new Random();
-            return frases[R.nextInt(frases.length)];
+            int frasesl = frases.length;
+            int aleatorio = R.nextInt(frases.length); 
+            return frases[aleatorio];
         }
         catch(Exception E)
         {
-            JOptionPane.showMessageDialog(null, "Erro na operação mensagem aleatória");
+            
             Frase f = new Frase();
             E.printStackTrace();
             f.setId(-1);

@@ -5,11 +5,8 @@ package Threads;
 import ClienteSOAP.ClienteUI;
 import proxy.Controle;
 import proxy.Frase;
-import com.sun.istack.internal.FragmentContentHandler;
-import static java.util.Collections.list;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class ThreadLista extends Thread 
 {
@@ -35,8 +32,11 @@ public class ThreadLista extends Thread
         List<Frase> f = control.listaTipo(categoria).getItem();
         if(f.size() == 0)
         {
+            JOptionPane.showMessageDialog(null, "Erro na operação lista-tipo");
             UI.setStatus("ERRO");
         }
+        
+        UI.setSaida("");
         
         for(int k = 0; k < f.size(); k++)
         {

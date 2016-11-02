@@ -7,6 +7,7 @@ import proxy.Controle;
 import proxy.Frase;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class ThreadAdicionar extends Thread 
 {
@@ -35,7 +36,11 @@ public class ThreadAdicionar extends Thread
             UI.setStatus("OK");
         }
         else
+        {
+            JOptionPane.showMessageDialog(null, "Erro ao adicionar");
             UI.setStatus("ERRO");
+        }
+            
         UI.bloquear(true);
     }
 }
