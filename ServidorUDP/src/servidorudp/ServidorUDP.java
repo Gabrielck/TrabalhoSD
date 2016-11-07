@@ -17,11 +17,13 @@ public class ServidorUDP {
      * @param args the command line arguments
      * @throws java.lang.Exception
      */
-    public static void main(String[] args) throws Exception {
-    SocketManager soc = new SocketManager();
-    soc.AbreSocket(2006);
-    
-    soc.GetMessage();
+    public static void main(String[] args) throws Exception {    
+        SocketManager soc = new SocketManager();
+        soc.AbreSocket(2006);
+
+        soc.GetMessage();
+        //enviar mensagem com o retorno que vai vir da linha de cima
+        //dividir mensagem antes de mandar (criar método pra isso)
     
     }
     
