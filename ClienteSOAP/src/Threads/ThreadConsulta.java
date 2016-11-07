@@ -7,6 +7,7 @@ import proxy.Controle;
 import proxy.Frase;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class ThreadConsulta extends Thread 
 {
@@ -37,6 +38,7 @@ public class ThreadConsulta extends Thread
         }
         else
         {
+             JOptionPane.showMessageDialog(null, "Erro em consulta");
              UI.setStatus("ERRO");
         }
        

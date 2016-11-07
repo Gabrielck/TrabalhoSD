@@ -48,3 +48,8 @@ Temporary Items
 /BibliotecaBanco/nbproject/private/
 /ServidorBD/nbproject/private/
 /ServidorUDP/nbproject/private/
+/ServidorSOAP/dist/
+/ClienteSOAP/dist/
+/ServidorSOAP/build/
+/BibliotecaBanco/build/
+/BibliotecaBanco/dist/
