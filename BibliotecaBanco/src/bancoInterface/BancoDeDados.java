@@ -5,7 +5,7 @@ package bancoInterface;
  * @author gabrielkr
  */
 public class BancoDeDados {
-    private static String host = "gabrielkressin.ddns.net";
+    private static String host = "amazon.kressin.com.br";
     private static Integer port = 8080;
     /**
      * Função para inserir uma frase no banco de dados.
