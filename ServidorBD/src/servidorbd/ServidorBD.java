@@ -19,11 +19,11 @@ public class ServidorBD {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Servidor de gerenciamento de conexões com o banco de dados");
-            while (true) {
-                Conexao conexao = Conexao.aguardar_conexao(cli_porta);
-                ThreadConexao th = new ThreadConexao(conexao);
-                th.run();
-            }
+        while (true) {
+            Conexao conexao = Conexao.aguardar_conexao(cli_porta);
+            ThreadConexao th = new ThreadConexao(conexao);
+            th.run();
+        }
     }
 
 }

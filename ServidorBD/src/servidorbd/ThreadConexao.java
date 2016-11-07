@@ -11,6 +11,9 @@ import bancoInterface.Conexao;
 import bancoInterface.Frase;
 import bancoInterface.PacoteBD;
 import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -27,7 +30,9 @@ public class ThreadConexao extends Thread {
     @Override
     public void run() {
         try {
-            System.out.println("Nova conexao estabelecida com " + conexao.getName());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss", Locale.getDefault());
+            String data = sdf.format(new Date());
+            System.out.println(data+" - Nova conexao estabelecida com " + conexao.getName());
             PacoteBD dados = conexao.aguardarPacote();
             PacoteBD retorno = null;
             switch (dados.getAcao()) {
@@ -96,6 +101,11 @@ public class ThreadConexao extends Thread {
         PreparedStatement ps = Postgres.getSatement("select * from frases where codigo = ?");
         ps.setInt(1, fr.getId());
         Frase[] f = Postgres.executeQueryFrase(ps);
+        if(f.length==0)
+        {
+            f=new Frase[1];
+            f[0]=null;
+        }
         return new PacoteBD(null,null,f);
     }
 
@@ -110,10 +120,15 @@ public class ThreadConexao extends Thread {
 
     private PacoteBD acao_mensagem_aleatoria(PacoteBD dados) throws Exception {
         Frase fr = dados.getObj()[0];
-        System.out.println("Consultar frase: tipo " + fr.getTipo());
+        System.out.println("Frase aleatoria: tipo " + fr.getTipo());
         PreparedStatement ps = Postgres.getSatement("select * from frases where tipo = ? order by RANDOM() limit 1");
         ps.setInt(1, fr.getTipo());
         Frase[] f = Postgres.executeQueryFrase(ps);
+        if(f.length==0)
+        {
+            f=new Frase[1];
+            f[0]=null;
+        }
         return new PacoteBD(null,null,f);
     }
 
