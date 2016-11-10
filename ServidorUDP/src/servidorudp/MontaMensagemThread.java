@@ -13,7 +13,19 @@ import java.util.logging.Logger;
 public class MontaMensagemThread extends Thread{
    
     public void run() {
-        //TODO: implementar função pra montar mensagem particionada pelo cliente    
+        SocketManager soc = new SocketManager();
+        try {
+            soc.AbreSocket(2006); 
+            soc.GetMessage();
+            
+            System.out.println("Teste Thread");
+            
+        } catch (Exception ex) {
+            Logger.getLogger(MontaMensagemThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+       
+        
     }
     
      

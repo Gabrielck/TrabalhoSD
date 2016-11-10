@@ -1,6 +1,7 @@
 
 package servidorudp;
 
+import bancoInterface.BancoDeDados;
 import bancoInterface.Frase;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -31,52 +32,75 @@ public class SocketManager {
             socket.receive(packet);
             
             if (packet != null){
-                int tam, op, cont = 0;
+                int tam, op, tipo, cont = 0;
                 vet = packet.getData();
                 
-                op  = (int) vet[0];
-                tam = (int) vet[1];
-                byte fr[] = new byte[tam];
+                String[] vs = new String (vet).split("#");
+                
+                op  = Integer.parseInt(vs[0]);
+                tam = Integer.parseInt(vs[1]);
+                String fr[] = new String[tam];
                 
                 for(int i = 0; i < tam; i++){
                     socket.receive(packet);
-                    if(packet == null) cont++;
-                    
+                                        
                     vet = packet.getData();
-                    fr[vet[0]] =(byte) ((vet[1]) << 100);
+                    String[] vetor = new String (vet).split("#");
+                    
+                    if(Integer.parseInt(vetor[0]) != op){
+                        continue;
+                    }
+                                  
+                    if(op == 1 || op == 4)
+                        fr[Integer.parseInt(vetor[1])-1] = vetor[2]; //"-1" é porque é mandado o n° de partições e não a posição
+                    
                 }
-                
-                frase.setFrase(new String(fr));
-                
-                if(cont > 0){
-                   return (DatagramPacket) null;
+                                
+                if(!ValidarMensagem(fr)){
+                   //return (DatagramPacket) null;
+                   SendMessage(socket, packet, "FALHA DE OMISSÃO");
                 }
                 /*
-                1 - consulta
-                2 - inserção 
-                3 - delete
-                4 - alteracao
-                5 - listar tipo
-                6 - mensagem aleatoria
-                */
+                   op#nrodepacotes
+                
+                    1#nroPacote#codfrase
+                    2#nroPacote#frase#tipo
+                    3#nroPacote#codfrase
+                    4#nroPacote#frase#codfrase#tipo
+                    5#nroPacote#tipo
+                    6#nroPacote#tipo
+                */ 
+                //String fraseinserir;
                 switch(op){ //operações do cliente com o banco
-                    case 1:
+                   
+                    case 1: // 1 - consulta
+                        frase = BancoDeDados.consulta(Integer.parseInt(fr[0])); // todos os inteiros cabem em um índice
+                        SendMessage(socket, packet, frase.getFrase());
                         break;
-                    case 2:
+                    case 2: // 2 - inserção 
+                        /*fraseinserir = new String();
+                        for(int i = 0; i < fr.length; i++)
+                            fraseinserir += fr[i];*/                       
+                        BancoDeDados.inserir(MontarVarString(fr), op);
                         break;
-                    case 3:
+                    case 3: // 3 - delete
+                        boolean excluido = BancoDeDados.exluir(Integer.parseInt(fr[0]));
+                        if(!excluido)
+                            SendMessage(socket, packet, "FALHA NA EXCLUSÃO");
                         break;
-                    case 4:
+                    case 4: // 4 - alteracao                   
+                        BancoDeDados.alterar(Integer.parseInt(fr[3]), MontarVarString(fr) , Integer.parseInt(fr[4]));
                         break;
-                    case 5:
+                    case 5: //5 - listar tipo
+                        BancoDeDados.lista_tipo(Integer.parseInt(fr[4]));
                         break;
-                    case 6:
+                    case 6: // 6 - mensagem aleatoria
+                        BancoDeDados.mensagem(Integer.parseInt(fr[4]));
                         break;
                     default:;
                        
                 }
-                
-                
+                                
               // fazer laço pelo numero de vezes que vier na primeira mensagem e ja montar a string antes de chamar a thread
               // abre a thread e monta a mensagem
               return packet;
@@ -85,8 +109,8 @@ public class SocketManager {
 
     }
     
-    public void SendMessage(DatagramSocket socket, DatagramPacket pacote) throws Exception{
-        String mensagem = new String(pacote.getData());
+    public void SendMessage(DatagramSocket socket, DatagramPacket pacote, String s) throws Exception{
+        String mensagem = new String(s);
         byte vet[] = new byte[100];
         
         vet = mensagem.getBytes();
@@ -94,5 +118,21 @@ public class SocketManager {
         socket.send(pacote);
         //socket.close();            
     }
+    
+    public String MontarVarString(String[] fr){
+        String fraseInserir = new String();
+        for(int i = 0; i < fr.length; i++)
+            fraseInserir += fr[i];
+        return fraseInserir;
+    }
+    
+    public Boolean ValidarMensagem (String[] vs){
+       //retorna true se vetor não perdeu mensagem
+        for(int i = 0; i < vs.length; i++)
+            if(vs[i] == null) return false;
+        
+        return true;
+    }
+    
 }
 
