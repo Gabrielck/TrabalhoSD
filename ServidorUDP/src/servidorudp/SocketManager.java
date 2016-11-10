@@ -39,21 +39,21 @@ public class SocketManager {
                 
                 op  = Integer.parseInt(vs[0]);
                 tam = Integer.parseInt(vs[1]);
-                String fr[] = new String[tam];
+                String fr[] = new String[tam]; // Frase de Retorno
+                String vetorAbertura[] = new String[5]; // 5 é o tamanho máximo indices do vetor de opções               
                 
                 for(int i = 0; i < tam; i++){
                     socket.receive(packet);
                                         
                     vet = packet.getData();
-                    String[] vetor = new String (vet).split("#");
+                    vetorAbertura = new String (vet).split("#");
                     
-                    if(Integer.parseInt(vetor[0]) != op){
+                    if(Integer.parseInt(vetorAbertura[0]) != op){
                         continue;
                     }
                                   
-                    if(op == 1 || op == 4)
-                        fr[Integer.parseInt(vetor[1])-1] = vetor[2]; //"-1" é porque é mandado o n° de partições e não a posição
-                    
+                    if(op == 2 || op == 4) // Se for inserção ou alteração
+                        fr[Integer.parseInt(vetorAbertura[1])-1] = vetorAbertura[2]; //"-1" é porque é mandado o n° de partições e não a posição
                 }
                                 
                 if(!ValidarMensagem(fr)){
@@ -63,12 +63,8 @@ public class SocketManager {
                 /*
                    op#nrodepacotes
                 
-                    1#nroPacote#codfrase
-                    2#nroPacote#frase#tipo
-                    3#nroPacote#codfrase
-                    4#nroPacote#frase#codfrase#tipo
-                    5#nroPacote#tipo
-                    6#nroPacote#tipo
+                    1#nroPacote#codfrase            || 2#nroPacote#frase#tipo || 3#nroPacote#codfrase
+                    4#nroPacote#frase#codfrase#tipo || 5#nroPacote#tipo       || 6#nroPacote#tipo
                 */ 
                 //String fraseinserir;
                 switch(op){ //operações do cliente com o banco
@@ -77,10 +73,7 @@ public class SocketManager {
                         frase = BancoDeDados.consulta(Integer.parseInt(fr[0])); // todos os inteiros cabem em um índice
                         SendMessage(socket, packet, frase.getFrase());
                         break;
-                    case 2: // 2 - inserção 
-                        /*fraseinserir = new String();
-                        for(int i = 0; i < fr.length; i++)
-                            fraseinserir += fr[i];*/                       
+                    case 2: // 2 - inserção                      
                         BancoDeDados.inserir(MontarVarString(fr), op);
                         break;
                     case 3: // 3 - delete
@@ -89,20 +82,17 @@ public class SocketManager {
                             SendMessage(socket, packet, "FALHA NA EXCLUSÃO");
                         break;
                     case 4: // 4 - alteracao                   
-                        BancoDeDados.alterar(Integer.parseInt(fr[3]), MontarVarString(fr) , Integer.parseInt(fr[4]));
+                        BancoDeDados.alterar(Integer.parseInt(vetorAbertura[3]), MontarVarString(fr) , Integer.parseInt(vetorAbertura[4]));
                         break;
                     case 5: //5 - listar tipo
-                        BancoDeDados.lista_tipo(Integer.parseInt(fr[4]));
+                        BancoDeDados.lista_tipo(Integer.parseInt(vetorAbertura[4]));
                         break;
                     case 6: // 6 - mensagem aleatoria
-                        BancoDeDados.mensagem(Integer.parseInt(fr[4]));
+                        BancoDeDados.mensagem(Integer.parseInt(vetorAbertura[4]));
                         break;
-                    default:;
-                       
+                    default: SendMessage(socket, packet, "OPÇÃO INVÁLIDA");;                       
                 }
-                                
-              // fazer laço pelo numero de vezes que vier na primeira mensagem e ja montar a string antes de chamar a thread
-              // abre a thread e monta a mensagem
+
               return packet;
             }
         }
