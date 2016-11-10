@@ -4,46 +4,60 @@
  * and open the template in the editor.
  */
 package clienteudp;
-
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.util.Scanner;
 
 /**
  *
  * @author Jônatas Strapazzon
  */
+        
 public class ClienteUDP {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) throws Exception {
-        
-        DatagramSocket soc;
-        DatagramPacket pct;
-        byte vet[];
-        String msg;
-        int porta = 2006;
-        InetAddress adress;
-        
-        
-        System.out.println("Cliente");
-        soc = new DatagramSocket();
-        msg = new String("oii");
-        vet = msg.getBytes();
-        adress = InetAddress.getLocalHost();
-        
-        pct = new DatagramPacket(vet, vet.length, adress, porta);
-        soc.send(pct);
-        System.out.println("Enviou mensagem com tamanho: " + vet.length);
-        
-        pct = new DatagramPacket(vet, vet.length);
-        soc.receive(pct);
-               
-        System.out.println("Voltou: " + new String(pct.getData()) );       
-        soc.close();
-           
+            
+        int opcao;
+        Scanner entrada = new Scanner(System.in);
+        Conexao selec = new Conexao();            
+
+        while(true){
+
+            selec.menu();
+            opcao = entrada.nextInt();
+
+            switch (opcao) 
+            {
+                case 0:
+                    System.out.println("Conexão finalizada!");
+                    return;
+
+                case 1:
+                    selec.consultar();
+                    break;
+
+                case 2:
+                    selec.incluir();
+                    break;
+
+                case 3:
+                    selec.excluir();
+                    break;
+
+                case 4:
+                    selec.alterar();
+                    break;
+
+                case 5:
+                    selec.consultar_grupo();
+                    break;
+
+                case 6:
+                    selec.consultar_aleatoria();
+                    break;
+
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        }
     }
-    
 }
+ 
