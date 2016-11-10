@@ -1,0 +1,24 @@
+<div style="width: 600px">
+  <md-dialog>
+    <form>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h2>Mensagem Aleatória!</h2>
+          <span flex></span>
+          <md-button class="md-icon-button" ng-click="cancel()">         
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-dialog-content>
+      <br>
+        <h5 style="text-align: center;">"{{randomMessage.description}}"</h5>
+      </md-dialog-content>
+
+      <md-dialog-actions layout="row">
+        <md-button ng-click="answer('close')">
+          Fechar
+        </md-button>
+      </md-dialog-actions>
+    </form>
+  </md-dialog>
+</div>

@@ -1,46 +1,55 @@
-angular.module("trabalhoSD").controller("mainController", function($scope, $mdDialog,  mainService) {   
-
-    $scope.tipo = 0;
-
-    $scope.selectTipo = function(tipo){
-      console.log("Tipo " + tipo + " selecionado");
-      $scope.tipo = tipo;
-      if(tipo == 1)
-      {
-        //Isso é a simulação de um get
-        $scope.messages = {
-          "messages": 
-          [
-            {
-              "description": "Mensagem de Motivação 1",
-              "type": "Motivação"
-            },
-            {
-              "description": "Mensagem de Motivação 2",
-              "type": "Motivação"
-            }
-          ]
-        }
-      }
-      if(tipo != 1)
-      {
-        //Isso é a simulação de um get
-        $scope.messages = null;
-      }
-      console.log($scope.messages.messages);
+angular.module("trabalhoSD").controller("mainController", function($scope, $mdDialog,  mainService, serviceShareType) {   
+    $scope.type =0;
+    $scope.selectType = function(type){
+      $scope.type = type;
+      console.log("serviceShareType.set: ", type);
+      serviceShareType.set(type);
+      $scope.messages = null;
+      getMessages(type);
     };
 
-    var getMessages = function() {
-      mainService.query(function(data) {
-        $scope.messages = data.value;
+    var getMessages = function(id) {
+      mainService.get(id, function(data) {
+        $scope.messages = data;
+        console.log($scope.messages);
       },function(err){
       });
     }
-    getMessages();
 
+    //Modal para mostrar mensagem random
+    var auxtype;
+    $scope.openModalRandomMessage = function(type){
+      auxtype=type;
+      $mdDialog.show({
+        locals:{
+          dataToPass: type
+        }, 
+        controller: controllerRandomMessageModal,
+        templateUrl: '../views/randomMessage.html',
+        clickOutsideToClose: true,
+        fullscreen: $scope.customFullscreen
+      }).then(function(answer) {
+      }, function() {
+      });
+    };
+
+    function controllerRandomMessageModal($scope, $mdDialog) {
+
+      mainService.getRandom(auxtype, function(data) {
+        $scope.randomMessage = data;
+        console.log(data);
+      }, function(err){
+        console.log('error saving message',err);
+      });
+
+      $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+      };
+    }
+
+    //Modal para editar e criar novas mensagens
     var newMessage;
     $scope.openModalCreateMessage = function(messsage){
-      console.log("teste");
       newMessage = messsage;
 
       $mdDialog.show({
@@ -56,16 +65,19 @@ angular.module("trabalhoSD").controller("mainController", function($scope, $mdDi
       });
     };
 
+    //Controlador da modalf
     function controllerNewMessageModal($scope, $mdDialog) {
 
+      $scope.type = serviceShareType.get();
+
       if(newMessage) {
-        $scope.message = newDisease;
+        $scope.message = newMessage;
       }
 
       $scope.saveMessage = function(message) {
-        mainService.edit(message._id, message, function(data) {
+        mainService.edit(message, message._id, function(data) {
           $scope.cancel();
-          getMessages();
+          getMessages($scope.type);
         }, function(err){
           console.log('error saving message',err);
         });
@@ -74,7 +86,7 @@ angular.module("trabalhoSD").controller("mainController", function($scope, $mdDi
       $scope.createNewMessage = function(message){
         mainService.save(message, function(data){
           $scope.cancel();
-          getMessages();
+          getMessages($scope.type);
         }, function(err){
           console.log(err);
         });
@@ -87,7 +99,7 @@ angular.module("trabalhoSD").controller("mainController", function($scope, $mdDi
         $mdDialog.cancel();
       };
       $scope.answer = function(answer) {
-        getMessages();
+        getMessages($scope.type);
         $mdDialog.hide(answer);
       };
     }
@@ -103,7 +115,7 @@ angular.module("trabalhoSD").controller("mainController", function($scope, $mdDi
 
       $mdDialog.show(windowRemoveMessage).then(function() {
         mainService.delete(message._id, function(data){
-          getMessages();
+          getMessages($scope.type);
         }, function(err) {
           console.log('error removing messages', err);
         });
@@ -111,4 +123,13 @@ angular.module("trabalhoSD").controller("mainController", function($scope, $mdDi
       }, function() {
       });
     };
+
+    $scope.search = function(id){
+      mainService.getId(id, function(data){
+        $scope.message = data;
+        console.log(data);
+      }, function(err) {
+        console.log('error removing messages', err);
+      });
+    }
 });

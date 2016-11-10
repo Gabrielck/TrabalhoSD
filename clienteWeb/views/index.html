@@ -21,6 +21,7 @@
 
   	<script src="../scripts/controllers/main.js"></script>
   	<script src="../scripts/services/main.js"></script>
+    <script src="../scripts/services/shareType.js"></script>
 
   	<title></title>
   </head>
@@ -40,14 +41,15 @@
         <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class="active"><h4 style="text-align: center">Selecione um Tipo</h4><span style="font-size:16px;" class="pull-right hidden-xs showopacity "></span></li>
-            <li ng-click="selectTipo(1)"><a href="#">Motivação<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-handshake-o"></span></a></li>
-            <li ng-click="selectTipo(2)"><a href="#">Felicitações<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-thumbs-o-up"></span></a></li>
-            <li ng-click="selectTipo(3)"><a href="#">Saudade<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-map-marker"></span></a></li>
-            <li ng-click="selectTipo(4)"><a href="#">Superação de Problemas<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-bolt"></span></a></li>
-            <li ng-click="selectTipo(5)"><a href="#">Amor<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-heart"></span></a></li>
-            <li ng-click="selectTipo(6)"><a href="#">Experiências de Vida<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-lightbulb-o"></span></a></li>
-            <li ng-click="selectTipo(7)"><a href="#">Caráter<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-smile-o"></span></a></li>
-            <li ng-click="selectTipo(8)"><a href="#">Top (as mais requisitadas)<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-fire"></span></a></li>
+            <li ng-click="selectType(1)"><a href="#">Motivação<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-handshake-o"></span></a></li>
+            <li ng-click="selectType(2)"><a href="#">Felicitações<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-thumbs-o-up"></span></a></li>
+            <li ng-click="selectType(3)"><a href="#">Saudade<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-map-marker"></span></a></li>
+            <li ng-click="selectType(4)"><a href="#">Superação de Problemas<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-bolt"></span></a></li>
+            <li ng-click="selectType(5)"><a href="#">Amor<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-heart"></span></a></li>
+            <li ng-click="selectType(6)"><a href="#">Experiências de Vida<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-lightbulb-o"></span></a></li>
+            <li ng-click="selectType(7)"><a href="#">Caráter<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-smile-o"></span></a></li>
+            <li ng-click="selectType(8)"><a href="#">Top (as mais requisitadas)<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-fire"></span></a></li>
+            <li ng-click="selectType(10)"><a href="#">Buscar Pelo ID<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-search"></span></a></li>
           </ul>
         </div>
       </div>
@@ -59,19 +61,37 @@
     <div style="display:flex">
 
       <!-- Conteúdo -->
-      <div style="padding-left: 50px; width:100%;" ng-show="tipo != 0">
-        <h1 style="text-align: center;" ng-show="tipo == 1">Mensagens de Motivação</h1>
-        <h1 style="text-align: center;" ng-show="tipo == 2">Mensagens de Felicitações</h1>
-        <h1 style="text-align: center;" ng-show="tipo == 3">Mensagens de Saudade</h1>
-        <h1 style="text-align: center;" ng-show="tipo == 4">Mensagens de Superação de Problemas</h1>
-        <h1 style="text-align: center;" ng-show="tipo == 5">Mensagens de Amor</h1>
-        <h1 style="text-align: center;" ng-show="tipo == 6">Mensagens de Experiências de Vida</h1>
-        <h1 style="text-align: center;" ng-show="tipo == 7">Mensagens de Caráter</h1>
-        <h1 style="text-align: center;" ng-show="tipo == 8">Mensagens Top (as mais requisitadas)</h1>
-        <md-button class="md-primary md-raised" ng-click="openModalCreateMessage()">
+      <div style="padding-left: 50px; width:100%;" ng-show="type != 0">
+        <h1 style="text-align: center;" ng-show="type == 1">Mensagens de Motivação</h1>
+        <h1 style="text-align: center;" ng-show="type == 2">Mensagens de Felicitações</h1>
+        <h1 style="text-align: center;" ng-show="type == 3">Mensagens de Saudade</h1>
+        <h1 style="text-align: center;" ng-show="type == 4">Mensagens de Superação de Problemas</h1>
+        <h1 style="text-align: center;" ng-show="type == 5">Mensagens de Amor</h1>
+        <h1 style="text-align: center;" ng-show="type == 6">Mensagens de Experiências de Vida</h1>
+        <h1 style="text-align: center;" ng-show="type == 7">Mensagens de Caráter</h1>
+        <h1 style="text-align: center;" ng-show="type == 8">Mensagens Top (as mais requisitadas)</h1>
+        <h1 style="text-align: center;" ng-show="type == 9">Frase Aleatória</h1>
+        <h1 style="text-align: center;" ng-show="type == 10">Busca por ID</h1>
+        <md-button class="md-primary md-raised" ng-show="type != 10" ng-click="openModalCreateMessage()">
           Nova Mensagem
         </md-button>
-        <div class="row">
+        <i ng-click="openModalRandomMessage(type)" ng-show="type != 10" class="fa fa-random" aria-hidden="true"></i>
+        <div class="md-dialog-content" ng-show="type == 10" style="display:flex">
+          <div>
+            <md-input-container  class="md-block">
+              <label>ID</label>
+              <input ng-model="message.id">
+            </md-input-container>
+          </div>
+          <div ng-show="type == 10">
+            <md-button class="md-primary md-raised"  ng-click="search(message.id)">
+              Buscar
+            </md-button>
+            <h2>Mensagem: {{message.description}}</h2>
+          </div>
+        </div>
+
+        <div class="row" ng-show="type != 10">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -83,11 +103,11 @@
             </thead>
 
             <tbody>
-              <tr ng-repeat="message in messages.messages">
+              <tr ng-repeat="message in messages">
                 <td>{{message.description}}</td>
                 <td>{{message.type}}</td>
                 <td align="center">
-                  <span class="fa fa-pencil-square-o" aria-hidden="true" ng-click="openModalCreate(message)"></span>
+                  <span class="fa fa-pencil-square-o" aria-hidden="true" ng-click="openModalCreateMessage(message)"></span>
                 </td>
                 <td align="center">
                   <span class="fa fa-trash" aria-hidden="true" ng-click="removeMessage(message)"></span>
@@ -99,41 +119,6 @@
       </div>
 
     </div>
-
-   <!--  <div ng-controller="mainController">
-
-    	<table class="table">
-        <tbody>
-          <thead>
-            <tr>
-              <td><b>Nome</b></td>
-              <td><b>Email</b></td>
-            </tr>
-          </thead>
-
-          <tr ng-repeat="usuario in usuarios">
-            <td>{{usuario.nome}}</td>
-            <td>{{usuario.email}}</td>
-          </tr>
-
-        </tbody>
-      </table>
-    		 	
-
-    	<md-input-container>
-    		<label>Nome</label>
-    		<input ng-model="usuario.nome">
-    	</md-input-container>
-    	<md-input-container>
-    		<label>Email</label>
-    		<input ng-model="usuario.email">
-    	</md-input-container>
-          			
-
-    	<md-button class="md-raised md-primary" ng-click="adicionarUsuario(usuario)">Adicionar</md-button>
-      <md-button class="md-raised md-primary" ng-click="testeAdicionar()">Adicionar</md-button>
-
-    </div> -->
 
   </body>
 </html>
