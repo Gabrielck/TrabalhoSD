@@ -6,6 +6,8 @@ import bancoInterface.Frase;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -22,7 +24,7 @@ public class SocketManager {
     }
     
     public DatagramPacket GetMessage() throws Exception{
-        byte vet[] = new byte[100];
+        byte vet[] = new byte[110];
         
         Frase frase = new Frase();
 
@@ -71,7 +73,7 @@ public class SocketManager {
                    
                     case 1: // 1 - consulta
                         frase = BancoDeDados.consulta(Integer.parseInt(fr[0])); // todos os inteiros cabem em um índice
-                        SendMessage(socket, packet, frase.getFrase());
+                        EnviarMensagemParticionada(socket, packet, frase.getFrase());                       
                         break;
                     case 2: // 2 - inserção                      
                         BancoDeDados.inserir(MontarVarString(fr), op);
@@ -79,18 +81,22 @@ public class SocketManager {
                     case 3: // 3 - delete
                         boolean excluido = BancoDeDados.exluir(Integer.parseInt(fr[0]));
                         if(!excluido)
-                            SendMessage(socket, packet, "FALHA NA EXCLUSÃO");
+                            SendMessage(socket, packet, "0");
                         break;
                     case 4: // 4 - alteracao                   
                         BancoDeDados.alterar(Integer.parseInt(vetorAbertura[3]), MontarVarString(fr) , Integer.parseInt(vetorAbertura[4]));
                         break;
                     case 5: //5 - listar tipo
-                        BancoDeDados.lista_tipo(Integer.parseInt(vetorAbertura[4]));
+                        Frase[] frases;
+                        frases = BancoDeDados.lista_tipo(Integer.parseInt(vetorAbertura[4]));
+                        for(int i = 0; i < frases.length; i++)
+                            EnviarMensagemParticionada(socket, packet, frases[i].getFrase());  
                         break;
                     case 6: // 6 - mensagem aleatoria
-                        BancoDeDados.mensagem(Integer.parseInt(vetorAbertura[4]));
+                        frase = BancoDeDados.mensagem(Integer.parseInt(vetorAbertura[4]));
+                        SendMessage(socket, packet, frase.getFrase());
                         break;
-                    default: SendMessage(socket, packet, "OPÇÃO INVÁLIDA");;                       
+                    default: SendMessage(socket, packet, "0");                       
                 }
 
               return packet;
@@ -122,6 +128,22 @@ public class SocketManager {
             if(vs[i] == null) return false;
         
         return true;
+    }
+    
+    public List<String> QuebrarMensagem (String sInteira){
+        List<String> strings = new ArrayList<String>();
+        int index = 0;
+        while (index<sInteira.length()){
+            strings.add(sInteira.substring(index, Math.min(index+100,sInteira.length())));
+            index+=10;
+        }
+        return strings;
+    }
+
+    public void EnviarMensagemParticionada (DatagramSocket socket, DatagramPacket packet, String mensagem) throws Exception{
+        List<String> Mensagens = QuebrarMensagem(mensagem);
+        for(int i = 0; i < Mensagens.size(); i++)
+        SendMessage(socket, packet, Mensagens.get(i)); 
     }
     
 }
