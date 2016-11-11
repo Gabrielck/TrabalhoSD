@@ -56,14 +56,10 @@ public class SocketManager {
                     if(Integer.parseInt(vetorAbertura[0].trim()) != op){
                         continue;
                     }
-                    
                     //if(op == 2 || op == 4) // Se for inserção ou alteração
-                    fr[(Integer.parseInt(vetorAbertura[1].trim()))-1] = vetorAbertura[2].trim(); //"-1" é porque é mandado o n° de partições e não a posição
-                   
+                    fr[(Integer.parseInt(vetorAbertura[1].trim()))-1] = vetorAbertura[2].trim(); //"-1" é porque é mandado o n° de partições e não a posição                   
                 }
                 
-                //tipo = Integer.parseInt(vetorAbertura[3].trim());
-
                 if(!ValidarMensagem(fr)){
                    //return (DatagramPacket) null;   
                    System.out.println("validar");
@@ -87,8 +83,11 @@ public class SocketManager {
                           EnviarMensagemParticionada(socket, packet, frase.getFrase());
                           System.out.println(frase.getFrase());
                         }
-                            else                             
-                                System.out.println("frase nula");
+                        else{
+                            System.out.println("frase nula");
+                            SendMessage(socket, packet, "0");
+                        }                           
+                                
                         break;
                     case 2: // 2 - inserção
                         System.out.println("switch 2" + op);
@@ -102,31 +101,39 @@ public class SocketManager {
                         break;
                     case 4: // 4 - alteracao  
                         System.out.println("switch 4: " + Integer.parseInt(vetorAbertura[4].trim()));
-                        BancoDeDados.alterar(Integer.parseInt(vetorAbertura[3].trim()), MontarVarString(fr) , Integer.parseInt(vetorAbertura[4].trim()));
+                        boolean alterado = BancoDeDados.alterar(Integer.parseInt(vetorAbertura[3].trim()), MontarVarString(fr) , Integer.parseInt(vetorAbertura[4].trim()));
+                        if(!alterado)
+                            SendMessage(socket, packet, "0");
                         break;
                     case 5: //5 - listar tipo
                         System.out.println("switch 5:");
                         Frase[] frases;
                         frases = BancoDeDados.lista_tipo(Integer.parseInt(vetorAbertura[2].trim()));
-                        for(int i = 0; i < frases.length; i++){
-                            System.out.println("String: " + frases[i].getFrase());
-                            EnviarMensagemParticionada(socket, packet, frases[i].getFrase());  
-                        }
+                        if(frases == null)
+                            SendMessage(socket, packet, "0");
+                        else{
+                            for(int i = 0; i < frases.length; i++){
+                                System.out.println("String: " + frases[i].getFrase());
+                                EnviarMensagemParticionada(socket, packet, frases[i].getFrase());  
+                            }
+                        }                       
                         break;
                     case 6: // 6 - mensagem aleatoria
                         System.out.println("switch 6:");
                         frase = BancoDeDados.mensagem(Integer.parseInt(vetorAbertura[2].trim()));
-                        System.out.println("Aleatória: " + frase.getFrase());
-                        SendMessage(socket, packet, frase.getFrase());
+                        if(frase == null)
+                            SendMessage(socket, packet, "0");
+                        else{
+                            SendMessage(socket, packet, frase.getFrase());                        
+                            System.out.println("Aleatória: " + frase.getFrase());                            
+                            }
                         break;
                     default: SendMessage(socket, packet, "0");    
-                        System.out.println("fim switch");
                 }
 
               return packet;
             }
         }
-
     }
     
     public void SendMessage(DatagramSocket socket, DatagramPacket pacote, String s) throws Exception{
@@ -168,7 +175,6 @@ public class SocketManager {
         List<String> Mensagens = QuebrarMensagem(mensagem);
         for(int i = 0; i < Mensagens.size(); i++)
         SendMessage(socket, packet, Mensagens.get(i)); 
-    }
-    
+    }    
 }
 
