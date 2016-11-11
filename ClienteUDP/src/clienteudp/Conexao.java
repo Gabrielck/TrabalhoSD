@@ -25,11 +25,11 @@ public class Conexao {
     String msg,msg2;
     int porta = 2006;
     InetAddress adress;
-    String codigo, cod;
+    String id_menu, id_tipo, id_msg;
     
     public void menu(){
        System.out.println("\tCliente UDP"); //id_menu#qntd_pacotes
-       System.out.println("0. Sair");
+       System.out.println("0. Sair");       
        System.out.println("1. Consultar");  //1#nro_pacote#id_msg
        System.out.println("2. Incluir");    //2#nro_pacote#mensagem#id_tipo
        System.out.println("3. Excluir");    //3#nro_pacote#id_msg
@@ -38,122 +38,197 @@ public class Conexao {
        System.out.println("6. Consultar mensagem aleatória");   //6#nro_pacote#id_tipo
        System.out.println("Opcao:"); 
     }
-   
-    public void SendMsg (String msg) throws Exception{
+    
+    public DatagramSocket AbreSocket() throws Exception{
         soc = new DatagramSocket();
-        
-        vet = msg.getBytes();
         adress = InetAddress.getLocalHost();
+        return soc;
+    }
+    
+    public void SendMsg (String msg) throws Exception{
+        vet = msg.getBytes();
+        System.out.println("Teste-Enviando: "+new String(vet));
         
         pct = new DatagramPacket(vet, vet.length, adress, porta);
         soc.send(pct);   
-     
-        soc.close();  
+    } 
+    
+    public void finalizar() throws Exception{ 
+        id_menu = "0#0";
+        
+        SendMsg(id_menu);
+        
+        soc.close();
+        
+        System.out.println("Enviado: " + id_menu);
+        System.out.println("Conexão finalizada!");
     }
+    
     public void consultar() throws Exception{
-        codigo = "1#0#";
+        id_menu = "1#1";
+        
+        SendMsg(id_menu);
+        
+        System.out.println("Enviado: " + id_menu);
         
         System.out.println("Digite o código da mensagem a ser consultada:");
         
         Scanner input = new Scanner(System.in);
         
-        msg = codigo + input.next();
+        msg = id_menu + "#" + input.next();
         
+        System.out.println("Enviado: " + msg + "\n\n");
+
         SendMsg(msg);
+
     }   
     
     public void incluir() throws Exception{
-        codigo = "2#";
-        soc = new DatagramSocket();
-        int tamanho, qtde, inicio, fim;
+        id_menu = "2#";
+        int tamanho, qtde, inicio= 0, fim= 100;
         double aux;
+        String id_aux;
         adress = InetAddress.getLocalHost();
+        
         
         System.out.println("Digite a mensagem que deseja enviar:");
         Scanner input = new Scanner(System.in);
         msg = input.nextLine();
-        System.out.println("Digite o código do tipo de mensagem:");
+        System.out.println("Digite o código do tipo de mensagem: (1-8)");
         Scanner input2 = new Scanner(System.in);
-        cod = input2.nextLine();
+        id_tipo = input2.nextLine();
         
         tamanho = msg.length();
-        System.out.println("Tamanho da mensagem: " + (tamanho+4));
+        System.out.println("Tamanho da mensagem: " + (tamanho));
         
-        aux = (tamanho+4) / 10;
+        aux = (tamanho) / 100;
         qtde = (int) aux + 1;
-        System.out.println("Quantidade de pacotes a enviar: " + qtde + "\n\n"); 
+        System.out.println("Quantidade de pacotes a enviar: " + qtde); 
         
-        String teste = codigo + qtde;
-        vet = teste.getBytes();
-        
-        pct = new DatagramPacket(vet, vet.length, adress, porta);
-        soc.send(pct);
+        id_aux = id_menu + qtde;
+        System.out.println("Cabeçalho: " + id_aux);
+        SendMsg(id_aux);
         
         String[] res = new String[qtde];
-        inicio = 0;
-        fim = 10;
-        
+
+        //System.out.println("qtde: "+qtde);
         for(int i = 0 ; i < qtde ; i++){  
             if(i == (qtde - 1)){
                 fim = tamanho;
             }
+            //System.out.println("Fim: "+fim);
             res[i] = String.valueOf(msg.substring(inicio, fim));
             inicio = fim;
-            fim =  fim + 10;
-            String teste2 = codigo + i + "#" + res[i] + "#" + cod;
+            fim =  fim + 100;
+            msg2 = id_menu + (i+1) + "#" + res[i] + "#" + id_tipo;
             
-            System.out.println(teste2);
+            System.out.println("Enviado: " + msg2);
             
-            vet = teste2.getBytes();
-            adress = InetAddress.getLocalHost();
-
-            pct = new DatagramPacket(vet, vet.length, adress, porta);
-            soc.send(pct);
+            SendMsg(msg2);
+            
         }  
-        soc.close();
+        System.out.println("\n\n");
     }
     
     public void excluir() throws Exception{
-        codigo = "3#0#";
+        id_menu = "3#1";
+        
+        System.out.println("Cabeçalho: " + id_menu);
+        SendMsg(id_menu);
         
         System.out.println("Digite o código da mensagem a ser excluída:");
         
         Scanner input = new Scanner(System.in);
         
-        msg = codigo + input.next();
+        msg = id_menu + "#" + input.next();
+        
+        System.out.println("Enviado: " + msg);
         
         SendMsg(msg);
+        
+        //resposta do servidor
+//        pct = new DatagramPacket(vet, vet.length);
+//        soc.receive(pct);
+//        System.out.println("Voltou: " + new String(pct.getData()) );
     }
     
     public void alterar() throws Exception{
-        codigo = "4#";
+        id_menu = "4#";
+        int tamanho, qtde, inicio= 0, fim= 100;
+        double aux;
+        String id_aux;
+        adress = InetAddress.getLocalHost();
         
         System.out.println("Digite a mensagem que deseja enviar:");
-        
         Scanner input = new Scanner(System.in);
+        msg = input.nextLine();
+        System.out.println("Digite o código do grupo que deseja alterar: (1-8)");
+        Scanner input2 = new Scanner(System.in);
+        id_tipo = input2.nextLine();
+        System.out.println("Digite o código da mensagem que deseja alterar:");
+        Scanner input3 = new Scanner(System.in);
+        id_msg = input3.nextLine();
         
-        msg = codigo + input.next();
+        tamanho = msg.length();
+        System.out.println("Tamanho da mensagem: " + (tamanho));
         
-        SendMsg(msg);
+        aux = (tamanho) / 100;
+        qtde = (int) aux + 1;
+        System.out.println("Quantidade de pacotes a enviar: " + qtde); 
+        
+        id_aux = id_menu + qtde;
+        System.out.println("Cabeçalho: " + id_aux);
+        SendMsg(id_aux);
+        
+        String[] res = new String[qtde];
+        
+        for(int i = 0 ; i < qtde ; i++){  
+            if(i == (qtde - 1)){
+                fim = tamanho;
+            }
+            //System.out.println("Fim: "+fim);
+            res[i] = String.valueOf(msg.substring(inicio, fim));
+            inicio = fim;
+            fim =  fim + 100;
+            msg2 = id_menu + (i+1) + "#" + res[i] + "#" + id_tipo + "#" + id_msg;
+            
+            System.out.println("Enviado: " + msg2);
+            
+            SendMsg(msg2);
+        }  
     }
     
     public void consultar_grupo() throws Exception{
-        codigo = "5#";
+        id_menu = "5#1";
+        
+        System.out.println("Cabeçalho: " + id_menu);
+        SendMsg(id_menu);
         
         System.out.println("Digite o código do grupo a ser consultado (1-8):");
         
+        Scanner input = new Scanner(System.in);
+        
+        msg = id_menu + "#" + input.next();
+        
+        System.out.println("Enviado: " + msg);
+
         SendMsg(msg);
+        
     }
      
     public void consultar_aleatoria() throws Exception{
-          
-        codigo = "6#";
-
+        id_menu = "6#1";
+        
+        System.out.println("Cabeçalho: " + id_menu);
+        SendMsg(id_menu);
+        
         System.out.println("Digite o código do grupo a ser consultado (1-8):");
 
         Scanner input = new Scanner(System.in);
 
-        msg = codigo + input.next();
+        msg = id_menu + "#" + input.next();
+        
+        System.out.println("Enviado: " + msg);
 
         SendMsg(msg);
     }

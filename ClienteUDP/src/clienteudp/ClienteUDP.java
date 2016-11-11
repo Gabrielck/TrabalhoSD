@@ -14,11 +14,14 @@ import java.util.Scanner;
 public class ClienteUDP {
 
     public static void main(String[] args) throws Exception {
-            
+        
+        Conexao selec = new Conexao();   
+        selec.AbreSocket();
+       //selec.SendMsg("100");
+        
         int opcao;
         Scanner entrada = new Scanner(System.in);
-        Conexao selec = new Conexao();            
-
+        
         while(true){
 
             selec.menu();
@@ -27,7 +30,7 @@ public class ClienteUDP {
             switch (opcao) 
             {
                 case 0:
-                    System.out.println("Conexão finalizada!");
+                    selec.finalizar();
                     return;
 
                 case 1:
@@ -60,4 +63,3 @@ public class ClienteUDP {
         }
     }
 }
- 
