@@ -32,17 +32,22 @@ public class SocketManager {
         
         while(true){                
             socket.receive(packet);
-            
+                        
             if (packet != null){
+                System.out.println("entrou");
                 int tam, op, tipo, cont = 0;
                 vet = packet.getData();
-                
+                                
                 String[] vs = new String (vet).split("#");
                 
+                System.out.println("posição 1: " + vs[1]);
+   
                 op  = Integer.parseInt(vs[0]);
                 tam = Integer.parseInt(vs[1]);
                 String fr[] = new String[tam]; // Frase de Retorno
-                String vetorAbertura[] = new String[5]; // 5 é o tamanho máximo indices do vetor de opções               
+                String vetorAbertura[] = new String[5]; // 5 é o tamanho máximo indices do vetor de opções       */        
+                
+                System.out.println("teste: " + tam);
                 
                 for(int i = 0; i < tam; i++){
                     socket.receive(packet);
@@ -57,7 +62,9 @@ public class SocketManager {
                     if(op == 2 || op == 4) // Se for inserção ou alteração
                         fr[Integer.parseInt(vetorAbertura[1])-1] = vetorAbertura[2]; //"-1" é porque é mandado o n° de partições e não a posição
                 }
-                                
+                           
+                System.out.println("testezinho"+vetorAbertura[1]);
+                
                 if(!ValidarMensagem(fr)){
                    //return (DatagramPacket) null;
                    SendMessage(socket, packet, "FALHA DE OMISSÃO");
@@ -69,7 +76,7 @@ public class SocketManager {
                     4#nroPacote#frase#codfrase#tipo || 5#nroPacote#tipo       || 6#nroPacote#tipo
                 */ 
                 //String fraseinserir;
-                switch(op){ //operações do cliente com o banco
+               /* switch(op){ //operações do cliente com o banco
                    
                     case 1: // 1 - consulta
                         frase = BancoDeDados.consulta(Integer.parseInt(fr[0])); // todos os inteiros cabem em um índice
@@ -98,7 +105,7 @@ public class SocketManager {
                         break;
                     default: SendMessage(socket, packet, "0");                       
                 }
-
+*/
               return packet;
             }
         }
@@ -112,7 +119,7 @@ public class SocketManager {
         vet = mensagem.getBytes();
         pacote = new DatagramPacket(vet, vet.length, pacote.getAddress(), pacote.getPort());
         socket.send(pacote);
-        //socket.close();            
+        socket.close();            
     }
     
     public String MontarVarString(String[] fr){
