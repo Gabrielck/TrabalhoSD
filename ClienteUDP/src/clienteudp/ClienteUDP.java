@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package clienteudp;
 import java.util.Scanner;
 
@@ -17,14 +13,14 @@ public class ClienteUDP {
         
         Conexao selec = new Conexao();   
         selec.AbreSocket();
-       //selec.SendMsg("100");
+        
+        Menu op = new Menu();
         
         int opcao;
         Scanner entrada = new Scanner(System.in);
         
         while(true){
-
-            selec.menu();
+            op.menu();
             opcao = entrada.nextInt();
 
             switch (opcao) 
@@ -61,5 +57,7 @@ public class ClienteUDP {
                     System.out.println("Opção inválida!");
             }
         }
+        
+        
     }
 }
