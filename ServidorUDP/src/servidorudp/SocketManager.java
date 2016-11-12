@@ -146,13 +146,12 @@ public class SocketManager {
     
     public void SendMessage(DatagramSocket socket, DatagramPacket pacote, String s) throws Exception{
         String mensagem = new String(s);
-        System.out.println("String s: = " + s);
-        byte vet[] = new byte[100];
+        byte vet[] = new byte[115];
         
         vet = mensagem.getBytes();
         DatagramPacket pac = new DatagramPacket(vet, vet.length, pacote.getAddress(), pacote.getPort());
         
-        System.out.println("DADOS ENVIADOS PELO PACOTE: " +  new String(pac.getData()));
+        System.out.println("Envio Cliente: " + new String(pac.getData()));
         socket.send(pac);
         //socket.close();            
     }
