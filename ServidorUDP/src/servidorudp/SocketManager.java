@@ -118,7 +118,7 @@ public class SocketManager {
                         Frase[] frases;
                         frases = BancoDeDados.lista_tipo(Integer.parseInt(vetorAbertura[2].trim()));
                         if(frases == null)
-                            SendMessage(socket, packet, "0");
+                            SendMessage(socket, packet, "0#0");
                         else{
                             for(int i = 0; i < frases.length; i++){
                                 System.out.println("String: " + frases[i].getFrase());
@@ -130,7 +130,7 @@ public class SocketManager {
                         System.out.println("switch 6:");
                         frase = BancoDeDados.mensagem(Integer.parseInt(vetorAbertura[2].trim()));
                         if(frase == null)
-                            SendMessage(socket, packet, "0");
+                            SendMessage(socket, packet, "0#0");
                         else{
                             SendMessage(socket, packet, frase.getFrase());                        
                             System.out.println("Aleatória: " + frase.getFrase());                            
