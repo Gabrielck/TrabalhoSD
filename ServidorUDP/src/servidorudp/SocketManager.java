@@ -80,7 +80,7 @@ public class SocketManager {
                         frase = BancoDeDados.consulta(Integer.parseInt(fr[0])); // todos os inteiros cabem em um índice
                         if(frase != null)
                         {
-                          EnviarMensagemParticionada(socket, packet, frase.getFrase());
+                          EnviarMensagemParticionada(socket, packet, frase.getFrase(), 0);
                           System.out.println(frase.getFrase());
                         }
                         else{
@@ -90,20 +90,25 @@ public class SocketManager {
                                 
                         break;
                     case 2: // 2 - inserção
-                        System.out.println("switch 2" + op);
+                        System.out.println("switch 2" );
                         BancoDeDados.inserir(MontarVarString(fr), Integer.parseInt(vetorAbertura[3].trim()));
                         break;
                     case 3: // 3 - delete
                         System.out.println("switch 3");
                         boolean excluido = BancoDeDados.exluir(Integer.parseInt(vetorAbertura[2].trim()));
-                        if(!excluido)
-                            SendMessage(socket, packet, "0");
+                        if(excluido)
+                            SendMessage(socket, packet, "Excluido");
+                        else
+                            SendMessage(socket, packet, "Não Excluido");
+                        
                         break;
                     case 4: // 4 - alteracao  
-                        System.out.println("switch 4: " + Integer.parseInt(vetorAbertura[4].trim()));
+                        System.out.println("switch 4: ");
                         boolean alterado = BancoDeDados.alterar(Integer.parseInt(vetorAbertura[3].trim()), MontarVarString(fr) , Integer.parseInt(vetorAbertura[4].trim()));
-                        if(!alterado)
-                            SendMessage(socket, packet, "0");
+                        if(alterado)
+                            SendMessage(socket, packet, "Alterado");
+                        else
+                            SendMessage(socket, packet, "Não Alterado");
                         break;
                     case 5: //5 - listar tipo
                         System.out.println("switch 5:");
@@ -114,7 +119,7 @@ public class SocketManager {
                         else{
                             for(int i = 0; i < frases.length; i++){
                                 System.out.println("String: " + frases[i].getFrase());
-                                EnviarMensagemParticionada(socket, packet, frases[i].getFrase());  
+                                EnviarMensagemParticionada(socket, packet, frases[i].getFrase(), i);  
                             }
                         }                       
                         break;
@@ -128,7 +133,7 @@ public class SocketManager {
                             System.out.println("Aleatória: " + frase.getFrase());                            
                             }
                         break;
-                    default: SendMessage(socket, packet, "0");    
+                    default: SendMessage(socket, packet, "Cliente Encerrado!");    
                 }
 
               return packet;
@@ -138,18 +143,24 @@ public class SocketManager {
     
     public void SendMessage(DatagramSocket socket, DatagramPacket pacote, String s) throws Exception{
         String mensagem = new String(s);
+        System.out.println("String s: = " + s);
         byte vet[] = new byte[100];
         
         vet = mensagem.getBytes();
-        pacote = new DatagramPacket(vet, vet.length, pacote.getAddress(), pacote.getPort());
-        socket.send(pacote);
+        DatagramPacket pac = new DatagramPacket(vet, vet.length, pacote.getAddress(), pacote.getPort());
+        
+        System.out.println("DADOS ENVIADOS PELO PACOTE: " +  new String(pac.getData()));
+        socket.send(pac);
         //socket.close();            
     }
     
     public String MontarVarString(String[] fr){
+        System.out.println("MontarVarString _____________________");
         String fraseInserir = new String();
         for(int i = 0; i < fr.length; i++)
             fraseInserir += fr[i];
+        
+        System.out.println(fraseInserir);
         return fraseInserir;
     }
     
@@ -161,20 +172,23 @@ public class SocketManager {
         return true;
     }
     
-    public List<String> QuebrarMensagem (String sInteira){
+    public List<String> QuebrarMensagem (String sInteira, int StringPertence){
         List<String> strings = new ArrayList<String>();
-        int index = 0;
+        int index = 0, partString = 1;
         while (index<sInteira.length()){
-            strings.add(sInteira.substring(index, Math.min(index+100,sInteira.length())));
-            index+=10;
+            strings.add(StringPertence +"#"+ partString +"#"+ sInteira.substring(index, Math.min(index+100,sInteira.length())));
+            index+=100;
+            partString++;
         }
         return strings;
     }
 
-    public void EnviarMensagemParticionada (DatagramSocket socket, DatagramPacket packet, String mensagem) throws Exception{
-        List<String> Mensagens = QuebrarMensagem(mensagem);
+    public void EnviarMensagemParticionada (DatagramSocket socket, DatagramPacket packet, String mensagem, int codMens ) throws Exception{
+        List<String> Mensagens = QuebrarMensagem(mensagem, codMens);
+
+        SendMessage(socket, packet, new String(codMens+"#"+Mensagens.size()));
         for(int i = 0; i < Mensagens.size(); i++)
-        SendMessage(socket, packet, Mensagens.get(i)); 
+            SendMessage(socket, packet, Mensagens.get(i)); 
     }    
 }
 

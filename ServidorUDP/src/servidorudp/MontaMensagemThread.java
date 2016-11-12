@@ -16,7 +16,8 @@ public class MontaMensagemThread extends Thread{
         SocketManager soc = new SocketManager();
         try {
             soc.AbreSocket(2006); 
-            soc.GetMessage();
+            while(true)
+             soc.GetMessage();
             
             //System.out.println("Teste Thread");
             

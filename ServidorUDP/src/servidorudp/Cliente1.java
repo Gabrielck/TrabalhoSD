@@ -40,9 +40,9 @@ public class Cliente1 {
         System.out.println("Cliente");
         soc = new DatagramSocket();
         msg = new String("1#1#118");//consulta //consulta  // 1#nroPacote#codfrase
-        //msg = new String("2#1#TESTE LYRA 2#5");//inserção  // 2#nroPacote#frase#tipo 
+        //msg = new String("2#1#TESTE LYRA 2#8");//inserção  // 2#nroPacote#frase#tipo 
         //msg = new String("3#1#121");             //delete  // 3#nroPacote#codfrase
-        //msg = new String("4#1#teste alteração#122#5"); //alteração    // 4#nroPacote#frase#codfrase#tipo
+       // msg = new String("4#1#teste alteração#82#5"); //alteração    // 4#nroPacote#frase#codfrase#tipo
         //msg = new String("5#1#5"); //listar tipo    // 5#nroPacote#tipo 
         //msg = new String("6#1#0"); //aleatoria      // 6#nroPacote#tipo
         vet = msg.getBytes();
