@@ -23,7 +23,7 @@ public class Conexao {
     
     public DatagramSocket AbreSocket() throws Exception{
         soc = new DatagramSocket();
-        adress = InetAddress.getByName("192.168.8.6");
+        adress = InetAddress.getLocalHost();
         return soc;
     }
     
