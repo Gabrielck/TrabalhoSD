@@ -22,7 +22,7 @@ public class ServidorUDP {
         //BancoDeDados.inserir("lyra", 5);
         //SocketManager soc = new SocketManager();
         //soc.AbreSocket(2006);
-
+        System.out.println("Servidor");
         MontaMensagemThread cliente = new MontaMensagemThread();
         cliente.start();
 
