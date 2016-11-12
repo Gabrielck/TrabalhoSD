@@ -88,7 +88,7 @@ public class SocketManager {
                         }
                         else{
                             System.out.println("frase nula");
-                            SendMessage(socket, packet, "0");
+                            SendMessage(socket, packet, "0#0");
                         }                           
                                 
                         break;
