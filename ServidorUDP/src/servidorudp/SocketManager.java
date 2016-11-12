@@ -24,18 +24,18 @@ public class SocketManager {
     }
     
     public DatagramPacket GetMessage() throws Exception{
-        byte vet[] = new byte[110];
-        
+                
         Frase frase = new Frase();
-
-        packet = new DatagramPacket(vet, vet.length);
-        
+               
         while(true){                
+            byte vet[] = new byte[110];
+            packet = new DatagramPacket(vet, vet.length);
             socket.receive(packet);
                         
             if (packet != null){
                 System.out.println("entrou");
                 int tam = 0, op, tipo, cont = 0;
+                vet = new byte[115];
                 vet = packet.getData();
                 
                 String[] vs = new String (vet).split("#");
@@ -49,6 +49,9 @@ public class SocketManager {
                 String vetorAbertura[] = new String[5]; // 5 é o tamanho máximo indices do vetor de opções*/        
                                 
                 for(int i = 0; i < tam; i++){
+                    vet = new byte[115];
+                    packet = new DatagramPacket(vet, vet.length);
+
                     socket.receive(packet);
                     vet = packet.getData();
                     vetorAbertura = new String (vet).split("#");
@@ -155,7 +158,7 @@ public class SocketManager {
     }
     
     public String MontarVarString(String[] fr){
-        System.out.println("MontarVarString _____________________");
+        System.out.println("MontarVarString");
         String fraseInserir = new String();
         for(int i = 0; i < fr.length; i++)
             fraseInserir += fr[i];

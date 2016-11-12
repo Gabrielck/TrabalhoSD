@@ -24,12 +24,8 @@ public class MontaMensagemThread extends Thread{
         } catch (Exception ex) {
             Logger.getLogger(MontaMensagemThread.class.getName()).log(Level.SEVERE, null, ex);
         }
-
        
-        
     }
-    
-     
 }
 
 

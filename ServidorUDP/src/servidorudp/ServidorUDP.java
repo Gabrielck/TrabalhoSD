@@ -26,8 +26,6 @@ public class ServidorUDP {
         MontaMensagemThread cliente = new MontaMensagemThread();
         cliente.start();
 
-
-
        // soc.GetMessage();
         //enviar mensagem com o retorno que vai vir da linha de cima
         //dividir mensagem antes de mandar (criar método pra isso)
