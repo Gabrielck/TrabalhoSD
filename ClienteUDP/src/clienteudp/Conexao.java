@@ -35,32 +35,27 @@ public class Conexao {
     } 
     
     public void recivePartMsg (DatagramPacket pct) throws Exception{
-        vet = new byte[110];
-        pct = new DatagramPacket(vet, vet.length);
-        
-        while(true){        
+        while(true){
+            int tam;
             
+//            vet = new byte[115];
+//            pct = new DatagramPacket(vet, vet.length);
+//            soc.receive(pct);
+//            
+//            vet = pct.getData();
+
+            vet = reciveMsg(pct); 
             
-            soc.receive(pct);
-            
-            int tam = 0, op, tipo;
-            
-            vet = pct.getData();
-            
-            System.out.println("Vet: " + new String(vet));
- 
             if(new String(vet).contains("0#0"))
             {
                 System.out.println("Resposta Servidor: Mensagem nula!" + "\n\n");
                 break;
             }
             else{
-
                 String[] vs = new String (vet).split("#");
-           
+
                 System.out.println("Quantidade de pacotes a receber: " + vs[1]);
 
-                op  = Integer.parseInt(vs[0].trim());
                 tam = Integer.parseInt(vs[1].trim());
 
                 String fr[] = new String[tam]; // Frase de Retorno
@@ -68,26 +63,23 @@ public class Conexao {
 
                 for(int i = 0; i < tam; i++)
                 {
-                    vet = new byte[115];
-                    pct = new DatagramPacket(vet, vet.length);
-
-                    soc.receive(pct);
-
-                    vet = pct.getData();  
+//                    vet = new byte[115];
+//                    pct = new DatagramPacket(vet, vet.length);
+//
+//                    soc.receive(pct);
+//                    vet = pct.getData();  
+                    
+                    vet = reciveMsg(pct);
                     vetorAbertura = new String (vet).split("#");
 
-                    if(Integer.parseInt(vetorAbertura[0].trim()) != op){
-                        continue;
-                    }
-
-                    fr[(Integer.parseInt(vetorAbertura[1].trim()))-1] = vetorAbertura[2].trim(); //"-1" é porque é mandado o n° de partições e não a posição 
-                    System.out.println("Vetor Abertura: " + fr[i]);
+                    fr[(Integer.parseInt(vetorAbertura[1]))-1] = vetorAbertura[2]; //"-1" é porque é mandado o n° de partições e não a posição 
                 }
 
                 String fraseCompleta = new String();
                 for(int i = 0; i < fr.length; i++)
                 {
-                fraseCompleta += fr[i];
+                    fraseCompleta += fr[i];
+                    System.out.println("FR:" + i + " valor: " + fraseCompleta);
                 }
 
                 System.out.println("Resposta do Servidor: " + fraseCompleta + "\n\n");
@@ -96,7 +88,29 @@ public class Conexao {
         }
     }
     
-    public void reciveMsg (DatagramPacket pct) throws Exception{
+    public void reciveList (DatagramPacket pct) throws Exception{
+        int tam;
+        
+//        vet = new byte[115];
+//        pct = new DatagramPacket(vet, vet.length);
+//        soc.receive(pct);
+//        vet = pct.getData();
+
+        vet = reciveMsg(pct);
+        String[] vs = new String (vet).split("#");
+        
+        tam = Integer.parseInt(vs[1].trim());
+        
+        for(int i = 0; i < tam; i++)
+        {
+            System.out.println("Item: " + (i+1));
+            recivePartMsg(pct);
+        }
+        
+    }
+    
+    public byte[] reciveMsg(DatagramPacket pct) throws Exception{
+//        vet = new byte[110];
         vet = new byte[110];
         pct = new DatagramPacket(vet, vet.length);
          
@@ -104,7 +118,7 @@ public class Conexao {
 
         vet = pct.getData();
             
-        System.out.println("Resposta Servidor: " + new String(vet) + "\n\n");
+        return vet;
     }
     
     public void finalizar() throws Exception{ 
@@ -180,7 +194,7 @@ public class Conexao {
             System.out.println("Enviado: " + msg2);
 
             sendMsg(msg2);
-            }  
+        }  
         System.out.println("\n\n");
     }
 
@@ -201,7 +215,8 @@ public class Conexao {
         sendMsg(msg);
 
         //resposta do servidor
-        reciveMsg(pct);
+        vet = reciveMsg(pct);
+        System.out.println("Resposta Servidor: " + new String(vet) + "\n\n");
     }
     
     public void alterar() throws Exception{
@@ -246,7 +261,7 @@ public class Conexao {
             System.out.println("Enviado: " + msg2);
 
             sendMsg(msg2);
-            }
+        }
 
             //resposta do servidor
             reciveMsg(pct);
@@ -269,7 +284,7 @@ public class Conexao {
         sendMsg(msg);
 
         //resposta do servidor
-        recivePartMsg(pct);
+        reciveList(pct);
     }
 
     public void consultar_aleatoria() throws Exception{

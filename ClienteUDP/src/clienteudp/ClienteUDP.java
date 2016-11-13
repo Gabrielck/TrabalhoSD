@@ -1,5 +1,6 @@
 
 package clienteudp;
+import java.net.DatagramSocket;
 import java.util.Scanner;
 
 /**
@@ -13,7 +14,7 @@ public class ClienteUDP {
         
         Conexao selec = new Conexao();   
         selec.AbreSocket();
-        
+          
         Menu op = new Menu();
         
         int opcao;
