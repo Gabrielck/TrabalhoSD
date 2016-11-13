@@ -18,9 +18,7 @@ public class MontaMensagemThread extends Thread{
             soc.AbreSocket(2006); 
             while(true)
              soc.GetMessage();
-            
-            //System.out.println("Teste Thread");
-            
+                        
         } catch (Exception ex) {
             Logger.getLogger(MontaMensagemThread.class.getName()).log(Level.SEVERE, null, ex);
         }
