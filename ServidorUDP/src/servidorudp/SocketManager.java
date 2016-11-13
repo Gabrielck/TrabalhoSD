@@ -132,7 +132,7 @@ public class SocketManager {
                         if(frase == null)
                             SendMessage(socket, packet, "0#0");
                         else{
-                            SendMessage(socket, packet, frase.getFrase());                        
+                            EnviarMensagemParticionada(socket, packet, frase.getFrase(), 0);                        
                             System.out.println("Aleatória: " + frase.getFrase());                            
                             }
                         break;
