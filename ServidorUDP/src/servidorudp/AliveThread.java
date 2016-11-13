@@ -32,8 +32,8 @@ public class AliveThread extends Thread{
                 soc = ss.accept();
                 System.out.println("Aguardando conexoes");
                 ObjectOutputStream escreve = new ObjectOutputStream(soc.getOutputStream());
-                escreve.writeObject("A'm Alive");
-                System.out.println("    A'm Alive");
+                escreve.writeObject("I'm Alive");
+                System.out.println("    I'm Alive");
                 escreve.flush();  
                 Thread.sleep(5000);
             }
