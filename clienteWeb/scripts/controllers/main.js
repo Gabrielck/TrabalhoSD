@@ -1,4 +1,5 @@
 angular.module("trabalhoSD").controller("mainController", function($scope, $mdDialog,  mainService, serviceShareType) {   
+
     $scope.type =0;
     $scope.selectType = function(type){
       $scope.type = type;
