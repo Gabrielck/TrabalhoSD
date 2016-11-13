@@ -1,6 +1,5 @@
 
 package clienteudp;
-import java.util.Scanner;
 
 /**
  *
@@ -17,51 +16,46 @@ public class ClienteUDP {
         Menu op = new Menu();
         
         int opcao;
-        Scanner entrada = new Scanner(System.in);
         
-        while(true){
-            op.menu();
-            opcao = entrada.nextInt();
+        op.menu();
+        opcao = Integer.parseInt(args[0]);
 
-            switch (opcao) 
-            {
-                case 0:
-                    selec.finalizar();
-                    return;
+        switch (opcao) 
+        {
+            case 0:
+                selec.finalizar();
+                return;
 
-                case 1:
-                    selec.consultar();
-                    break;
+            case 1:
+                selec.consultar(args[1]);
+                break;
 
-                case 2:
-                    selec.incluir();
-                    break;
+            case 2:
+                selec.incluir(args[1], args[2]);
+                break;
 
-                case 3:
-                    selec.excluir();
-                    break;
+            case 3:
+                selec.excluir(args[1]);
+                break;
 
-                case 4:
-                    selec.alterar();
-                    break;
+            case 4:
+                selec.alterar(args[1], args[2], args[3]);
+                break;
 
-                case 5:
-                    selec.consultar_grupo();
-                    break;
+            case 5:
+                selec.consultar_grupo(args[1]);
+                break;
 
-                case 6:
-                    selec.consultar_aleatoria();
-                    break;
-                
-                case 7: 
-                    op.TipoMsg();
-                    break;
+            case 6:
+                selec.consultar_aleatoria(args[1]);
+                break;
 
-                default:
-                    System.out.println("Opção inválida!");
-            }
-        }
-        
-        
+            case 7: 
+                op.TipoMsg();
+                break;
+
+            default:
+                System.out.println("Opção inválida!");
+        }     
     }
 }
