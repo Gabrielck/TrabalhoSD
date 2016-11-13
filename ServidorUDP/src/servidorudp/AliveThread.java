@@ -23,7 +23,7 @@ public class AliveThread extends Thread{
         Socket soc;
         ObjectInputStream recebe;
         String msg = new String();
-        int porta = 2006;
+        int porta = 2007;
         System.out.println("Servidor");
         try {
             ss = new ServerSocket(porta);       
