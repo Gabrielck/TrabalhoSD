@@ -27,7 +27,7 @@ public class Postgres {
             return;
         }
         Class.forName("org.postgresql.Driver");
-        con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/sd", "postgres", "!(@!¨*@%%@%%");
+        con = DriverManager.getConnection("jdbc:postgresql://banco1.kressin.com.br:5432/sd", "postgres", "!(@!¨*@%%@%%");
         con.setAutoCommit(true);
     }
 
