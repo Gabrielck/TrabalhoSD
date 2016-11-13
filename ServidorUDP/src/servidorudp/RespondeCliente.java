@@ -1,54 +1,76 @@
 
 package servidorudp;
 
-import bancoInterface.BancoDeDados;
-import bancoInterface.Frase;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Date;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import bancoInterface.BancoDeDados;
+import bancoInterface.Frase;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  *
  * @author Matheus Lyra
  */
-public class SocketManager {
-   
-     DatagramPacket packet;
-     DatagramSocket socket;
+public class RespondeCliente extends Thread{
+   DatagramSocket socket;
+   DatagramPacket packet;
+   Frase frase;
+   byte[] vet;
 
-    public  DatagramSocket AbreSocket(int porta) throws Exception{
-        socket = new DatagramSocket(porta);
+    public byte[] getVet() {
+        return vet;
+    }
+
+    public void setVet(byte[] vet) {
+        this.vet = vet;
+    }
+
+    public Frase getFrase() {
+        return frase;
+    }
+
+    public void setFrase(Frase frase) {
+        this.frase = frase;
+    }
+   
+    public DatagramSocket getSocket() {
         return socket;
     }
-    
-    public static void FechaSocket(DatagramSocket socket) throws Exception{
-        socket.close();
+
+    public void setSocket(DatagramSocket socket) {
+        this.socket = socket;
     }
+
+    public DatagramPacket getPacket() {
+        return packet;
+    }
+
+    public void setPacket(DatagramPacket packet) {
+        this.packet = packet;
+    }
+
     
-    public DatagramPacket GetMessage() throws Exception{
-                
-        Frase frase = new Frase();
-               
-        while(true){                
-            byte vet[] = new byte[110];
-            packet = new DatagramPacket(vet, vet.length);
-            socket.receive(packet);
-                        
-            RespondeCliente respondeCliente = new RespondeCliente();
-            respondeCliente.setSocket(socket);
-            respondeCliente.setPacket(packet);
-            respondeCliente.setFrase(frase);
-            respondeCliente.setVet(vet);
-            respondeCliente.start();
+    public void run() {
+        
+        try{
             
-            /*if (packet != null){
+                if (packet != null){
                 System.out.println("entrou");
-                int tam = 0, op, tipo, cont = 0;
+                int tam = 0, op;
                 vet = new byte[115];
                 vet = packet.getData();
-                
+                System.out.println("PRIMEIRO PACOTE: " + new String(packet.getData()));
                 String[] vs = new String (vet).split("#");
                 
                 System.out.println("posição 1: " + vs[1]);
@@ -59,10 +81,11 @@ public class SocketManager {
                 String fr[] = new String[tam]; // Frase de Retorno
                 String vetorAbertura[] = new String[5]; // 5 é o tamanho máximo indices do vetor de opções*/        
                                 
-                /*for(int i = 0; i < tam; i++){
+                for(int i = 0; i < tam; i++){
+                    System.out.println("ENTROU FOR");
                     vet = new byte[115];
-                    packet = new DatagramPacket(vet, vet.length);
-
+                    DatagramPacket packet = new DatagramPacket(vet, vet.length);
+                    System.out.println("PACOTE: " + new String(packet.getData()));
                     socket.receive(packet);
                     vet = packet.getData();
                     vetorAbertura = new String (vet).split("#");
@@ -86,7 +109,7 @@ public class SocketManager {
                     4#nroPacote#frase#codfrase#tipo || 5#nroPacote#tipo       || 6#nroPacote#tipo
                 */ 
                 //String fraseinserir;
-              /*  System.out.println("switch");
+                System.out.println("switch");
                 switch(op){ //operações do cliente com o banco
                    
                     case 1: // 1 - consulta
@@ -151,12 +174,21 @@ public class SocketManager {
                     default: SendMessage(socket, packet, "Cliente Encerrado!");    
                 }
                 System.out.println(new String(packet.getData()));
-              return packet;
-            }*/
+             // return packet;
+             socket.close();
+            }
+            
+            
+            
+        }catch(Exception ex){
+            
         }
+      
+          
+      
     }
     
-    public static void SendMessage(DatagramSocket socket, DatagramPacket pacote, String s) throws Exception{
+     public static void SendMessage(DatagramSocket socket, DatagramPacket pacote, String s) throws Exception{
         String mensagem = new String(s);
         byte vet[] = new byte[115];
         
@@ -203,6 +235,12 @@ public class SocketManager {
         SendMessage(socket, packet, new String(codMens+"#"+Mensagens.size()));
         for(int i = 0; i < Mensagens.size(); i++)
             SendMessage(socket, packet, Mensagens.get(i)); 
-    }    
+    }  
+    
+    
+    
+    
+    
+    
+    
 }
-
