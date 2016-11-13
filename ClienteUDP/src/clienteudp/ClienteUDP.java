@@ -1,6 +1,5 @@
 
 package clienteudp;
-import java.net.DatagramSocket;
 import java.util.Scanner;
 
 /**
@@ -52,6 +51,10 @@ public class ClienteUDP {
 
                 case 6:
                     selec.consultar_aleatoria();
+                    break;
+                
+                case 7: 
+                    op.TipoMsg();
                     break;
 
                 default:

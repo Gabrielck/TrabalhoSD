@@ -16,6 +16,18 @@ public class Menu {
     System.out.println("4. Alterar");    //4#nro_pacote#mensagem#id_tipo#id_msg
     System.out.println("5. Consultar mensagens de um grupo");    //5#nro_pacote#id_tipo
     System.out.println("6. Consultar mensagem aleatória");   //6#nro_pacote#id_tipo
+    System.out.println("7. Consultar tipos de mensagens");   
     System.out.println("Opcao:"); 
+    }
+    
+    public void TipoMsg(){
+        System.out.println("1. Motivação");    
+        System.out.println("2. Felicitações");  
+        System.out.println("3. Saudade");
+        System.out.println("4. Superação de problemas");  
+        System.out.println("5. Amor"); 
+        System.out.println("6. Experiências de Vida");
+        System.out.println("7. Caráter"); 
+        System.out.println("8. Top (as mais requisitadas\n\n");   
     }
 }

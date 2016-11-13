@@ -79,7 +79,6 @@ public class Conexao {
                 for(int i = 0; i < fr.length; i++)
                 {
                     fraseCompleta += fr[i];
-                    System.out.println("FR:" + i + " valor: " + fraseCompleta);
                 }
 
                 System.out.println("Resposta do Servidor: " + fraseCompleta + "\n\n");
@@ -156,7 +155,7 @@ public class Conexao {
     public void incluir() throws Exception{
         id_menu = "2#";      
 
-        int tamanho, qtde, inicio= 0, fim= 100;
+        int tam, qtde, inicio= 0, fim= 100;
         double aux;
         String id_aux;   
 
@@ -167,10 +166,10 @@ public class Conexao {
         Scanner input2 = new Scanner(System.in);
         id_tipo = input2.nextLine();
 
-        tamanho = msg.length();
-        System.out.println("Tamanho da mensagem: " + (tamanho));
+        tam = msg.length();
+        System.out.println("Tamanho da mensagem: " + (tam));
 
-        aux = (tamanho) / 100;
+        aux = (tam) / 100;
         qtde = (int) aux + 1;
         System.out.println("Quantidade de pacotes a enviar: " + qtde); 
 
@@ -183,7 +182,7 @@ public class Conexao {
         //System.out.println("qtde: "+qtde);
         for(int i = 0 ; i < qtde ; i++){  
             if(i == (qtde - 1)){
-                fim = tamanho;
+                fim = tam;
             }
             //System.out.println("Fim: "+fim);
             res[i] = String.valueOf(msg.substring(inicio, fim));
