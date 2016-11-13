@@ -84,6 +84,7 @@ angular.module("trabalhoSD").controller("mainController", function($scope, $mdDi
       };
 
       $scope.createNewMessage = function(message){
+        message.type = $scope.type;
         mainService.save(message, function(data){
           $scope.cancel();
           getMessages($scope.type);
