@@ -14,7 +14,6 @@ import java.util.Scanner;
 public class Servidor {
 
     public static void main(String[] args) throws Exception {
-        InetAddress adress1;
 
         int porta;
 
@@ -23,14 +22,15 @@ public class Servidor {
         System.out.println("Digite o número do servidor: ");
         Scanner entrada = new Scanner(System.in);
         adress = entrada.nextLine();
-        porta = 2006;
+        porta = 2007;
         
         Comunica vrau;
-        vrau = new ThreadServer(adress, porta);
+        vrau = new Comunica(adress, porta);
+        System.out.println("Passou os parametros");
+        vrau.start();
         
-        //vrau();
+        
 
-        //adress = InetAddress.getLocalHost();
 
     }
 }

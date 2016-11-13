@@ -18,8 +18,19 @@ import java.util.logging.Logger;
  * @author User
  */
 public class Comunica extends Thread {
+    private int porta;
+    private String adress;
+    
+    public Comunica(String Adress, int porta)
+    {
+        this.porta = porta;
+        this.adress = Adress;
+    }
+    
 
-    public void ThreadServer(String adress, int porta) throws UnknownHostException, SocketException, IOException {
+    public void run(){
+        
+        
         DatagramSocket soc;
         DatagramPacket pct;
         InetAddress adress1;
@@ -27,22 +38,32 @@ public class Comunica extends Thread {
         byte vet[] = new byte[100];
         msg = new String("Teste de falha PORRAAAAA!!");
         vet = msg.getBytes();
-
-        soc = new DatagramSocket();
-        adress1 = InetAddress.getByName(adress);
-
+        
+        
         try {
+            boolean verifica = false;
             soc = new DatagramSocket();
-        } catch (SocketException ex) {
-            System.out.println("Não conseguiu criar o socket");
+            adress1 = InetAddress.getByName(this.adress);
+            
+            
+            pct = new DatagramPacket(vet, vet.length, adress1, this.porta);
+            
+            while (true) {
+                System.out.println("Enviou o pacote");
+                soc.send(pct);
+                verifica = false;
+                soc.receive(pct);
+                verifica = true;
+                Thread.sleep(3000);
+                System.out.println("Recebeu o pacote");
+                soc.close();
+                System.out.println("Encerrou o socket");
+            }
+        } catch (IOException iOException) {
+        } catch (InterruptedException interruptedException) {
         }
+        
 
-        pct = new DatagramPacket(vet, vet.length, adress1, porta);
-
-        while (true) {
-            soc.send(pct);
-            soc.receive(pct);
-        }
     }
 
 }

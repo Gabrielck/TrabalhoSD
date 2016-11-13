@@ -8,8 +8,18 @@
  *
  * @author User
  */
-public class Thread2 {
+public class Thread2 extends Thread{
+    private boolean flag;
     
+    public void setador()
+    {
+        this.flag = false;
+    }
+    
+    public void run()
+    {
+        
+    }
     
     
 }
