@@ -16,6 +16,9 @@ import bancoInterface.BancoDeDados;
 import bancoInterface.Frase;
 import java.util.ArrayList;
 import java.util.List;
+import static servidorudp.SocketManager.EnviarMensagemParticionada;
+import static servidorudp.SocketManager.MontarVarString;
+import static servidorudp.SocketManager.SendMessage;
 
 
 /**
@@ -27,6 +30,32 @@ public class RespondeCliente extends Thread{
    DatagramPacket packet;
    Frase frase;
    byte[] vet;
+   int op;
+   String[] fr, vetorAbertura;
+   
+     public String[]getVetorAbertura() {
+        return vetorAbertura;
+    }
+
+    public void setVetorAbertura(String[] vetorAbertura) {
+        this.vetorAbertura = vetorAbertura;
+    }
+
+    public String[] getFr() {
+        return fr;
+    }
+
+    public void setFr(String[] fr) {
+        this.fr = fr;
+    }
+
+    public int getOp() {
+        return op;
+    }
+
+    public void setOp(int op) {
+        this.op = op;
+    }
 
     public byte[] getVet() {
         return vet;
@@ -59,49 +88,11 @@ public class RespondeCliente extends Thread{
     public void setPacket(DatagramPacket packet) {
         this.packet = packet;
     }
-
     
+        
     public void run() {
         
         try{
-            
-                if (packet != null){
-                System.out.println("entrou");
-                int tam = 0, op;
-                vet = new byte[115];
-                vet = packet.getData();
-                System.out.println("PRIMEIRO PACOTE: " + new String(packet.getData()));
-                String[] vs = new String (vet).split("#");
-                
-                System.out.println("posição 1: " + vs[1]);
-   
-                op  = Integer.parseInt(vs[0].trim());
-                System.out.println(op);
-                tam = Integer.parseInt(vs[1].trim());
-                String fr[] = new String[tam]; // Frase de Retorno
-                String vetorAbertura[] = new String[5]; // 5 é o tamanho máximo indices do vetor de opções*/        
-                                
-                for(int i = 0; i < tam; i++){
-                    System.out.println("ENTROU FOR");
-                    vet = new byte[115];
-                    DatagramPacket packet = new DatagramPacket(vet, vet.length);
-                    System.out.println("PACOTE: " + new String(packet.getData()));
-                    socket.receive(packet);
-                    vet = packet.getData();
-                    vetorAbertura = new String (vet).split("#");
-                    
-                    if(Integer.parseInt(vetorAbertura[0].trim()) != op){
-                        continue;
-                    }
-                    //if(op == 2 || op == 4) // Se for inserção ou alteração
-                    fr[(Integer.parseInt(vetorAbertura[1].trim()))-1] = vetorAbertura[2].trim(); //"-1" é porque é mandado o n° de partições e não a posição                   
-                }
-                
-                if(!ValidarMensagem(fr)){
-                   //return (DatagramPacket) null;   
-                   System.out.println("validar");
-                   SendMessage(socket, packet, "0");
-                }
                 /*
                    op#nrodepacotes
                 
@@ -175,72 +166,12 @@ public class RespondeCliente extends Thread{
                 }
                 System.out.println(new String(packet.getData()));
              // return packet;
-             socket.close();
-            }
-            
-            
-            
-        }catch(Exception ex){
-            
-        }
-      
+             //socket.close();
+            } catch (Exception ex) {
+           Logger.getLogger(RespondeCliente.class.getName()).log(Level.SEVERE, null, ex);
+       }
+  
           
       
-    }
-    
-     public static void SendMessage(DatagramSocket socket, DatagramPacket pacote, String s) throws Exception{
-        String mensagem = new String(s);
-        byte vet[] = new byte[115];
-        
-        vet = mensagem.getBytes();
-        DatagramPacket pac = new DatagramPacket(vet, vet.length, pacote.getAddress(), pacote.getPort());
-        
-        System.out.println("Envio Cliente: " + new String(pac.getData()));
-        socket.send(pac);
-        //socket.close();            
-    }
-    
-    public static String MontarVarString(String[] fr){
-        System.out.println("MontarVarString");
-        String fraseInserir = new String();
-        for(int i = 0; i < fr.length; i++)
-            fraseInserir += fr[i];
-       
-        System.out.println(fraseInserir);
-        return fraseInserir;
-    }
-    
-    public  static Boolean ValidarMensagem (String[] vs){
-       //retorna true se vetor não perdeu mensagem
-        for(int i = 0; i < vs.length; i++)
-            if(vs[i].isEmpty()) return false;
-        
-        return true;
-    }
-    
-    public static List<String> QuebrarMensagem (String sInteira, int StringPertence){
-        List<String> strings = new ArrayList<String>();
-        int index = 0, partString = 1;
-        while (index<sInteira.length()){
-            strings.add(StringPertence +"#"+ partString +"#"+ sInteira.substring(index, Math.min(index+100,sInteira.length())));
-            index+=100;
-            partString++;
-        }
-        return strings;
-    }
-
-    public static void EnviarMensagemParticionada (DatagramSocket socket, DatagramPacket packet, String mensagem, int codMens ) throws Exception{
-        List<String> Mensagens = QuebrarMensagem(mensagem, codMens);
-
-        SendMessage(socket, packet, new String(codMens+"#"+Mensagens.size()));
-        for(int i = 0; i < Mensagens.size(); i++)
-            SendMessage(socket, packet, Mensagens.get(i)); 
-    }  
-    
-    
-    
-    
-    
-    
-    
+    }    
 }
