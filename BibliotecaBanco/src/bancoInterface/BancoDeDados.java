@@ -178,5 +178,31 @@ public class BancoDeDados {
             return null;
         return pac.getObj()[0];
     }
+    
+    /**
+     * Função para verificar frases duplicadas no banco.
+     *      * Este método possui 1 parâmetro.
+     * Integer tipo = O tipo da frase do banco de dados que será consultada.
+     * Valor de retorno: A função retorna um vetor de objeto Frase, contendo todas as frases que são duplicadas.
+     * Exemplo:
+     * Frase f[] = BancoDeDados.frases_duplicadas();
+     * for(Frase atual: f)
+     *      System.out.println("\nFrase: "+atual.getFrase());
+     */
+    public static Frase[] frases_duplicadas() throws Exception
+    {
+        Conexao con = Conexao.conectar(host, port);
+        PacoteBD pac = new PacoteBD();
+
+        pac.setAcao(7); // Ação frase duplicada
+
+        Frase obj[] = new Frase[1];
+        obj[0] = new Frase();
+        pac.setObj(obj);
+        con.enviarPacote(pac);
+        pac = con.aguardarPacote();
+        con.desconectar();
+        return pac.getObj();
+    }
 
 }

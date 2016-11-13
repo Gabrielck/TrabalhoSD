@@ -16,6 +16,10 @@ public class ClienteTeste {
 
     public static void main(String[] args) throws Exception {
         System.out.println("asdfasdf");
+        Frase[] f = BancoDeDados.frases_duplicadas();
+        for(Frase a: f) {
+            System.out.println(a.getFrase());
+         }
         //BancoDeDados.inserir("Frase de teste", 2);
         
         if (BancoDeDados.alterar(10, "aaa", 1)) {

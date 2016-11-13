@@ -54,6 +54,10 @@ public class ThreadConexao extends Thread {
                 case 6:
                     retorno = acao_mensagem_aleatoria(dados);
                     break;
+                case 7:
+                    retorno = acao_frases_duplicadas();
+                    break;
+                    
             }
             conexao.enviarPacote(retorno);
         } catch (Exception e) {
@@ -131,5 +135,13 @@ public class ThreadConexao extends Thread {
         }
         return new PacoteBD(null,null,f);
     }
+
+    private PacoteBD acao_frases_duplicadas() throws Exception {
+        System.out.println("Pegar frases duplicadas");
+        PreparedStatement ps = Postgres.getSatement("select * from frases f, (select frase from frases group by frase having count(*) > 1) d where d.frase = f.frase");
+        Frase[] f = Postgres.executeQueryFrase(ps);
+        return new PacoteBD(null,null,f);
+    }
+    
 
 }
