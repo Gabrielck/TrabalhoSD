@@ -1,3 +1,19 @@
+<?php
+  header("link: <../font-awesome/css/font-awesome.min.css>; rel=preload; as=stylesheet", false);
+  header("link: <../public/css/bootstrap.min.css>; rel=preload; as=stylesheet", false);
+  header("link: <../public/css/angular-material.min.css>; rel=preload; as=stylesheet", false);
+  header("link: <../public/css/menuLateral.css>; rel=preload; as=stylesheet", false);
+  header("link: <../public/js/angular.min.js>; rel=preload; as=stylesheet", false);
+  header("link: <../public/js/angular-animate.min.js>; rel=preload; as=stylesheet", false);
+  header("link: <../public/js/angular-aria.min.js>; rel=preload; as=stylesheet", false);
+  header("link: <../public/js/angular-messages.min.js>; rel=preload; as=stylesheet", false);
+  header("link: <../public/js/angular-material.min.js>; rel=preload; as=stylesheet", false);
+  header("link: <../scripts/app.js>; rel=preload; as=stylesheet", false);
+  header("link: <../scripts/controllers/main.js>; rel=preload; as=stylesheet", false);
+  header("link: <../scripts/services/main.js>; rel=preload; as=stylesheet", false);
+  header("link: <../scripts/services/shareType.js>; rel=preload; as=stylesheet", false);
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
