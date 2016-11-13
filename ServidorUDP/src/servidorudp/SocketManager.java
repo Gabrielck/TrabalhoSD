@@ -120,6 +120,7 @@ public class SocketManager {
                         if(frases == null)
                             SendMessage(socket, packet, "0#0");
                         else{
+                            SendMessage(socket, packet, "0#" + frases.length);
                             for(int i = 0; i < frases.length; i++){
                                 System.out.println("String: " + frases[i].getFrase());
                                 EnviarMensagemParticionada(socket, packet, frases[i].getFrase(), i);  
