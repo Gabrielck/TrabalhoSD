@@ -1,6 +1,7 @@
 
 package servidorudp;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -17,25 +18,34 @@ import java.util.logging.Logger;
 public class AliveThread extends Thread{
    
     public void run() {
-/*
+
         ServerSocket ss;
         Socket soc;
         ObjectInputStream recebe;
         String msg = new String();
         int porta = 2006;
         System.out.println("Servidor");
-        ss = new ServerSocket(porta);
-        System.out.println("Aguardando conexoes");
-        soc = ss.accept();
-        recebe = new ObjectInputStream(soc.getInputStream());
-        msg = (String) recebe.readObject();
-        System.out.println("Recebido: " + msg);
-                
-        ObjectOutputStream escreve = new ObjectOutputStream(soc.getOutputStream());
-        escreve.writeObject(msg.toUpperCase());
-        escreve.flush();
-        
-        soc.close();*/
+        try {
+            ss = new ServerSocket(porta);       
+            
+            while(true){
+                soc = ss.accept();
+                System.out.println("Aguardando conexoes");
+                ObjectOutputStream escreve = new ObjectOutputStream(soc.getOutputStream());
+                escreve.writeObject("A'm Alive");
+                System.out.println("    A'm Alive");
+                escreve.flush();  
+                Thread.sleep(5000);
+            }
+            
+                //soc.close();
+      
+        } catch (IOException ex) {
+            Logger.getLogger(AliveThread.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AliveThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
 
     }

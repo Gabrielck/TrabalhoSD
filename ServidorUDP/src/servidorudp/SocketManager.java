@@ -139,7 +139,7 @@ public class SocketManager {
                         break;
                     default: SendMessage(socket, packet, "Cliente Encerrado!");    
                 }
-
+                System.out.println(new String(packet.getData()));
               return packet;
             }
         }
@@ -162,7 +162,7 @@ public class SocketManager {
         String fraseInserir = new String();
         for(int i = 0; i < fr.length; i++)
             fraseInserir += fr[i];
-        
+       
         System.out.println(fraseInserir);
         return fraseInserir;
     }

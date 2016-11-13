@@ -39,7 +39,7 @@ public class Cliente1 {
        
         System.out.println("Cliente");
         soc = new DatagramSocket();
-        msg = new String("1#1#118");//consulta //consulta  // 1#nroPacote#codfrase
+        msg = new String("1#1#136");//consulta //consulta  // 1#nroPacote#codfrase
         //msg = new String("2#1#TESTE LYRA 2#8");//inserção  // 2#nroPacote#frase#tipo 
         //msg = new String("3#1#121");             //delete  // 3#nroPacote#codfrase
        // msg = new String("4#1#teste alteração#82#5"); //alteração    // 4#nroPacote#frase#codfrase#tipo

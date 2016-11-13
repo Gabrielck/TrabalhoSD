@@ -22,7 +22,9 @@ public class ServidorUDP {
         System.out.println("Servidor");
         MontaMensagemThread cliente = new MontaMensagemThread();
         cliente.start();
-
+        
+        AliveThread alive = new AliveThread();
+        alive.start();
     
     }
     
