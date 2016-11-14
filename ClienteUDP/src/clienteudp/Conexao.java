@@ -15,10 +15,8 @@ public class Conexao {
     
     DatagramSocket soc;
     DatagramPacket pct;   
-    byte vet[];
     int porta = 2006;
     InetAddress adress;
-    String msg, msg2, id_menu, id_tipo, id_msg, id_aux;
     
     public DatagramSocket AbreSocket() throws Exception{
         soc = new DatagramSocket();
@@ -28,6 +26,7 @@ public class Conexao {
     }
     
     public void sendMsg (String msg) throws Exception{
+        byte vet[];
         vet = msg.getBytes();
 
         pct = new DatagramPacket(vet, vet.length, adress, porta);
@@ -35,8 +34,10 @@ public class Conexao {
     } 
     
     public void recivePartMsg (DatagramPacket pct) throws Exception{
-        while(true){
+        while(true)
+        {
             int tam;
+            byte vet[];
             
             vet = reciveMsg(pct); 
             
@@ -46,28 +47,21 @@ public class Conexao {
                 break;
             }
             else{
-                String[] vs = new String (vet).split("#");
+                String[] tamanho = new String (vet).split("#");
                 
-                tam = Integer.parseInt(vs[1].trim());
-
-                String fr[] = new String[tam]; // Frase de Retorno
-                String vetorAbertura[] = new String[5]; // 5 é o tamanho máximo indices do vetor de opções        
-
+                tam = Integer.parseInt(tamanho[1].trim());
+                
+                String frase[] = new String[5]; // 5 é o tamanho máximo indices do vetor de opções        
+                
+                String s = new String();
                 for(int i = 0; i < tam; i++)
-                {                  
+                {       
                     vet = reciveMsg(pct);
-                    vetorAbertura = new String (vet).split("#");
-
-                    fr[(Integer.parseInt(vetorAbertura[1].trim()))-1] = vetorAbertura[2].trim(); //"-1" é porque é mandado o n° de partições e não a posição 
+                    frase = new String (vet).split("#");
+                    s += frase[2].substring(0, (frase[2].length()-1));            
                 }
 
-                String fraseCompleta = new String();
-                for(int i = 0; i < fr.length; i++)
-                {
-                    fraseCompleta += fr[i];
-                }
-
-                System.out.println("Resposta do Servidor: " + new String(fraseCompleta.getBytes(), "UTF-8") + "\n\n");
+                System.out.println("Resposta do Servidor: " + new String(s.getBytes(), "UTF-8") + "\n\n");
                 break;
             }
         }
@@ -75,7 +69,8 @@ public class Conexao {
     
     public void reciveList (DatagramPacket pct) throws Exception{
         int tam;
-
+        byte vet[];
+        
         vet = reciveMsg(pct);
         String[] vs = new String (vet).split("#");
         
@@ -90,7 +85,7 @@ public class Conexao {
     }
     
     public byte[] reciveMsg(DatagramPacket pct) throws Exception{
-        vet = new byte[110];
+        byte vet[] = new byte[110];
         pct = new DatagramPacket(vet, vet.length);
          
         soc.receive(pct);
@@ -101,7 +96,7 @@ public class Conexao {
     }
     
     public void finalizar() throws Exception{ 
-        id_menu = "0#0#@@@";
+        String id_menu = "0#0#@@@";
 
         sendMsg(id_menu);
         
@@ -112,7 +107,7 @@ public class Conexao {
     }
     
     public void consultar(String cod_msg) throws Exception{
-        id_menu = "1#1#@@@";
+        String msg, id_menu = "1#1#@@@";
 
         sendMsg(id_menu);
         System.out.println("Enviado: " + id_menu);
@@ -129,8 +124,7 @@ public class Conexao {
     }   
     
     public void incluir(String cod_msg, String cod_tipo) throws Exception{
-        id_menu = "2#";      
-
+        String msg, msg2, id_tipo, id_aux, id_menu = "2#";      
         int tam, qtde, inicio= 0, fim= 100;
         double aux;  
 
@@ -147,7 +141,8 @@ public class Conexao {
         System.out.println("Cabeçalho: " + id_aux);
         
         String[] res = new String[qtde];
-        for(int i = 0 ; i < qtde ; i++){  
+        for(int i = 0 ; i < qtde ; i++)
+        {  
             if(i == (qtde - 1))
             {
                 fim = tam;
@@ -163,7 +158,8 @@ public class Conexao {
     }
 
     public void excluir(String cod_msg) throws Exception{
-        id_menu = "3#1#@@@";
+        String msg, id_menu = "3#1#@@@";
+        byte vet[];
 
         sendMsg(id_menu);
         System.out.println("Cabeçalho: " + id_menu);
@@ -181,10 +177,10 @@ public class Conexao {
     }
     
     public void alterar(String mensagem, String cod_msg, String cod_tipo) throws Exception{
-        id_menu = "4#";
-        
+        String msg, msg2, id_msg, id_tipo, id_aux, id_menu = "4#";
         int tam, qtde, inicio= 0, fim= 100;
         double aux;
+        byte vet[];
 
         msg = mensagem;
         id_msg = cod_msg;
@@ -200,8 +196,10 @@ public class Conexao {
         System.out.println("Cabeçalho: " + id_aux);
         
         String[] res = new String[qtde];
-        for(int i = 0 ; i < qtde ; i++){  
-            if(i == (qtde - 1)){
+        for(int i = 0 ; i < qtde ; i++)
+        {  
+            if(i == (qtde - 1))
+            {
                 fim = tam;
             }
             res[i] = String.valueOf(msg.substring(inicio, fim));
@@ -214,12 +212,12 @@ public class Conexao {
         }
 
         //resposta do servidor
-        reciveMsg(pct);
+        vet = reciveMsg(pct);
         System.out.println("Resposta Servidor: " + new String(vet) + "\n\n");
     }
     
     public void consultar_grupo(String id_tipo) throws Exception{
-        id_menu = "5#1#@@@";
+        String msg, id_menu = "5#1#@@@";
 
         sendMsg(id_menu);
         System.out.println("Cabeçalho: " + id_menu);
@@ -236,7 +234,7 @@ public class Conexao {
     }
 
     public void consultar_aleatoria(String id_tipo) throws Exception{
-        id_menu = "6#1#@@@";
+        String msg, id_menu = "6#1#@@@";
 
         sendMsg(id_menu);
         System.out.println("Cabeçalho: " + id_menu);
