@@ -165,8 +165,6 @@ public class RespondeCliente extends Thread{
                     default: SendMessage(socket, packet, "Cliente Encerrado!");    
                 }
                 System.out.println(new String(packet.getData()));
-             // return packet;
-             //socket.close();
             } catch (Exception ex) {
            Logger.getLogger(RespondeCliente.class.getName()).log(Level.SEVERE, null, ex);
        }

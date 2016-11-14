@@ -35,14 +35,10 @@ public class AliveThread extends Thread{
                 escreve.writeObject("I'm Alive");
                 System.out.println("    I'm Alive");
                 escreve.flush();  
-                Thread.sleep(5000);
+               // Thread.sleep(5000);
             }
             
-                //soc.close();
-      
-        } catch (IOException ex) {
-            Logger.getLogger(AliveThread.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(AliveThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 

@@ -50,7 +50,7 @@ public class SocketManager {
                 if (packet != null) {
                     System.out.println("entrou");
                     int tam = 0, op;
-                    vet = new byte[115];
+                    vet = new byte[110];
                     vet = packet.getData();
 
                     String[] vs = new String (vet).split("#");
@@ -64,7 +64,7 @@ public class SocketManager {
                     String vetorAbertura[] = new String[5]; // 5 é o tamanho máximo indices do vetor de opções*/        
 
                         for(int i = 0; i < tam; i++){
-                            vet = new byte[115];
+                            vet = new byte[110];
                             packet = new DatagramPacket(vet, vet.length);
                             socket.receive(packet);
                             vet = packet.getData();
@@ -85,8 +85,8 @@ public class SocketManager {
                                 continue;
                             }
                             //if(op == 2 || op == 4) // Se for inserção ou alteração
-                            Integer aaaaa = (Integer.parseInt(vetorAbertura[1].trim()))-1;
-                            System.out.println("Vetor indice: "+aaaaa);
+                            Integer aa = (Integer.parseInt(vetorAbertura[1].trim()))-1;
+                            System.out.println("Vetor indice: "+aa);
                             fr[(Integer.parseInt(vetorAbertura[1].trim()))-1] = vetorAbertura[2].trim(); //"-1" é porque é mandado o n° de partições e não a posição                   
                         }
 
@@ -113,7 +113,7 @@ public class SocketManager {
     
     public static void SendMessage(DatagramSocket socket, DatagramPacket pacote, String s) throws Exception{
         String mensagem = new String(s);
-        byte vet[] = new byte[115];
+        byte vet[] = new byte[110];
         
         vet = mensagem.getBytes();
         DatagramPacket pac = new DatagramPacket(vet, vet.length, pacote.getAddress(), pacote.getPort());
