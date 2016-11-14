@@ -44,6 +44,7 @@ public class SocketManager {
                     if(!aux[2].trim().equals("@@@"))
                     {
                         System.out.println("Mensagem inincial inválida!");
+                        SendMessage(socket, packet, "00#0");
                         continue;
                     }
                 }
@@ -93,7 +94,7 @@ public class SocketManager {
                     if(!ValidarMensagem(fr)){
                        //return (DatagramPacket) null;   
                        System.out.println("validar");
-                       SendMessage(socket, packet, "0");
+                       SendMessage(socket, packet, "0#0");
                     }
                     RespondeCliente respondeCliente = new RespondeCliente();
                     respondeCliente.setSocket(socket);
