@@ -44,7 +44,7 @@ public class SocketManager {
                     if(!aux[2].trim().equals("@@@"))
                     {
                         System.out.println("Mensagem inincial inválida!");
-                        SendMessage(socket, packet, "0#0");
+                        SendMessage(socket, packet, "9#9");
                         continue;
                     }
                 }
