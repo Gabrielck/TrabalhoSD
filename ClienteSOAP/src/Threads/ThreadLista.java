@@ -41,6 +41,7 @@ public class ThreadLista extends Thread
         for(int k = 0; k < f.size(); k++)
         {
             Frase temp = f.get(k);
+            UI.adicionarSaida("ID: " + Integer.toString(temp.getId()) + "\n");
             UI.adicionarSaida(temp.getFrase());
             UI.adicionarSaida("\n-----------\n");
         }

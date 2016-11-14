@@ -33,7 +33,7 @@ public class ThreadAleatorio extends Thread
         Frase f = control.mensagemAleatoria(id);
         if(f.getId() != -1)
         {
-            UI.setSaida(f.getFrase());
+            UI.setSaida("ID: " + Integer.toString(f.getId()) + "\n" + f.getFrase());
             UI.setStatus("OK");
         }
         else

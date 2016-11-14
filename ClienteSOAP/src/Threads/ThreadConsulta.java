@@ -30,17 +30,27 @@ public class ThreadConsulta extends Thread
         } catch (InterruptedException ex) {
             Logger.getLogger(ThreadConsulta.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Frase f = control.consultar(id);
-        if(f.getId() != -1)
+        try
         {
+            Frase f = control.consultar(id);
+            if(f.getId() != -1)
+            {
             UI.setSaida(f.getFrase());
             UI.setStatus("OK");
-        }
-        else
-        {
+            }
+            else
+            {
              JOptionPane.showMessageDialog(null, "Erro em consulta");
              UI.setStatus("ERRO");
+            }
         }
+        catch(Exception E)
+        {
+              JOptionPane.showMessageDialog(null, "Erro em consulta");
+              UI.setStatus("ERRO");      
+        }
+
+
        
         UI.bloquear(true);
     }

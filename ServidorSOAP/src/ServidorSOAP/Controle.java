@@ -17,6 +17,7 @@ public class Controle {
     public Frase Consultar(int id)
     {
         Frase f = new Frase();
+        f.setId(0);
         try
         {
             f = BancoDeDados.consulta(id);
@@ -26,6 +27,8 @@ public class Controle {
             
             E.printStackTrace();
             f.setId(-1);
+            f.setFrase("");
+            f.setTipo(0);
             return f;
         }
         return f;
