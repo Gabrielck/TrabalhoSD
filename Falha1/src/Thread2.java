@@ -1,8 +1,7 @@
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +29,7 @@ public class Thread2 extends Thread {
         System.out.println("Digite o número do servidor: ");
         Scanner entrada = new Scanner(System.in);
         adress = entrada.nextLine();
+        System.out.println(adress);
 
         while (true) {
 
@@ -37,7 +37,7 @@ public class Thread2 extends Thread {
             loco = new Comunica(adress, porta);
             loco.start();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Thread2.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -46,24 +46,32 @@ public class Thread2 extends Thread {
             if (this.flag == true) {
                 continue;
             } else {
-                System.out.println("Mata a Thread");
-                //Thread.interrupt();
-                DatagramSocket soc;
-            DatagramPacket pct;
-            InetAddress adress1;
+                System.out.println("Thread1 esta morta");
+            Socket soc;
+
+            ObjectOutputStream escreve;
+        
             String msg;
-            byte vet[] = new byte[100];
+        
             msg = new String("O servidor caiu. Desculpe o transtorno :)!!");
-            vet = msg.getBytes();
+
                 try {
+                    // AQUI VAI O IP DO CLIENTE !!!!!!!
+                    soc = new Socket(adress, porta-1);
                     
-                    soc = new DatagramSocket();
-                    adress1 = InetAddress.getByName(this.adress);
+                    escreve = new ObjectOutputStream(soc.getOutputStream());
                     
-                    pct = new DatagramPacket(vet, vet.length, adress1, this.porta);
-                    soc.send(pct);
+                    escreve.writeObject(msg);
+
+                    escreve.flush();
+                    
+                    System.out.println("Enviou a mensagem ao cliente");
+                    
+                    soc.close();
                 } catch (IOException iOException) {
                 }
+                System.out.println("Saiu do programa");
+                System.exit(0);
             }
         }
     }

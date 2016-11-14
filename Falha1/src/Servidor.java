@@ -17,7 +17,7 @@ public class Servidor {
         
         Thread2 vrau;
         vrau = new Thread2();
-        System.out.println("Passou os parametros");
+        System.out.println("Chamou a thread");
         vrau.start();
         
         

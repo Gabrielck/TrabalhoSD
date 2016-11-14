@@ -1,12 +1,8 @@
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -36,34 +32,41 @@ public class Comunica extends Thread {
     public void run(){
         
         
-        DatagramSocket soc;
-        DatagramPacket pct;
-        InetAddress adress1;
+        Socket soc;
+        ObjectOutputStream escreve;
+        
         String msg;
-        byte vet[] = new byte[100];
-        msg = new String("Teste de falha!!");
-        vet = msg.getBytes();
+        
+        msg = new String("Teste!!");
+        
         
         
         try {
             
-            soc = new DatagramSocket();
-            adress1 = InetAddress.getByName(this.adress);
+            soc = new Socket(adress, porta);
+            escreve = new ObjectOutputStream(soc.getOutputStream());
+            escreve.writeObject(msg);
             
+            escreve.flush();
+            System.out.println("Mandou a mensagem");
+            this.verifica = false;
             
-            pct = new DatagramPacket(vet, vet.length, adress1, this.porta);
-            
-            while (true) {
-                System.out.println("Enviou o pacote");
-                soc.send(pct);
-                this.verifica = false;
-                soc.receive(pct);
+            ObjectInputStream in = new ObjectInputStream(soc.getInputStream());
+            try {
+                
+                String saida = (String) in.readObject();
+                System.out.println("Recebeu a mensagem");
                 this.verifica = true;
-                //Thread.sleep(3000);
-                System.out.println("Recebeu o pacote");
-                soc.close();
-                System.out.println("Encerrou o socket");
+                System.out.println(saida);
+                
+            } catch (IOException iOException) {
+            } catch (ClassNotFoundException classNotFoundException) {
             }
+            
+            soc.close();
+            
+            System.out.println("Encerrou o socket");
+            
         } catch (IOException iOException) {
         }
         
