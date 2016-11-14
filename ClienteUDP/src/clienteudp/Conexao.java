@@ -20,7 +20,7 @@ public class Conexao {
     
     public DatagramSocket AbreSocket() throws Exception{
         soc = new DatagramSocket();
-        adress = InetAddress.getByName("192.168.*.*");
+        adress = InetAddress.getByName("192.168.9.3");
         return soc;
     }
     
@@ -38,31 +38,38 @@ public class Conexao {
         while(true)
         {
             int tam;
-            byte vet[];
+            byte vet[] = null;
             
             vet = reciveMsg(pct); 
             
-            if(new String(vet).contains("0#0")) //Se o servidor mandar o código "0#0" no 1º pacote significa que a frase é nula
+            if(new String(vet).contains("00#0"))
             {
-                System.out.println("Resposta Servidor: Mensagem nula!" + "\n\n");
-                break;
+                System.out.println("Perca de pacote!!" + "\n\n");
+                break;     
             }
-            else
-            {
-                String[] tamanho = new String (vet).split("#"); //Quebra o pacote onde tiver o símbolo "#" e armazena em um vetor de String
-                
-                tam = Integer.parseInt(tamanho[1].trim()); //Para saber a quantidade de pacotes que virão     
-                
-                String s = new String();
-                for(int i = 0; i < tam; i++)
-                {       
-                    vet = reciveMsg(pct);
-                    s += new String(vet).substring(4, (vet.length-2)); // -2 por causa do espaço no início e fim da string
+            else{  
+                if(new String(vet).contains("0#0")) //Se o servidor mandar o código "0#0" no 1º pacote significa que a frase é nula
+                {
+                    System.out.println("Resposta Servidor: Mensagem nula!" + "\n\n");
+                    break;
                 }
-                
-                //Mostra resposta do servidor com codificação UTF-8
-                System.out.println("Resposta do Servidor: " + new String(s.getBytes(), "UTF-8") + "\n\n");
-                break;
+                else
+                {
+                    String[] tamanho = new String (vet).split("#"); //Quebra o pacote onde tiver o símbolo "#" e armazena em um vetor de String
+
+                    tam = Integer.parseInt(tamanho[1].trim()); //Para saber a quantidade de pacotes que virão     
+
+                    String s = new String();
+                    for(int i = 0; i < tam; i++)
+                    {       
+                        vet = reciveMsg(pct);
+                        s += new String(vet).substring(4, (vet.length-2)); // -2 por causa do espaço no início e fim da string
+                    }
+
+                    //Mostra resposta do servidor com codificação UTF-8
+                    System.out.println("Resposta do Servidor: " + new String(s.getBytes(), "UTF-8") + "\n\n");
+                    break;
+            }
             }
         }
     }
