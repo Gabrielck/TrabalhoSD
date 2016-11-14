@@ -94,7 +94,7 @@ public class SocketManager {
                     if(!ValidarMensagem(fr)){
                        //return (DatagramPacket) null;   
                        System.out.println("Mensagem inincial inválida!");
-                       SendMessage(socket, packet, "00#0");
+                       SendMessage(socket, packet, "9#9");
                     }
                     RespondeCliente respondeCliente = new RespondeCliente();
                     respondeCliente.setSocket(socket);
