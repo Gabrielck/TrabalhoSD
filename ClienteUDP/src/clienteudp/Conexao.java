@@ -42,7 +42,7 @@ public class Conexao {
             
             vet = reciveMsg(pct); 
             
-            if(new String(vet).contains("00#0"))
+            if(new String(vet).contains("9#9"))
             {
                 System.out.println("Perca de pacote!!" + "\n\n");
                 break;     
