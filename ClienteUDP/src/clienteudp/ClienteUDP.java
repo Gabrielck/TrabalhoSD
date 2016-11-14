@@ -11,16 +11,16 @@ public class ClienteUDP {
     public static void main(String[] args) throws Exception {
         
         Conexao selec = new Conexao();   
-        selec.AbreSocket();
+        selec.AbreSocket(); //Abre socket com o servidor para enviar os pacotes
           
         Menu op = new Menu();
         
         int opcao;
         
         op.menu();
-        opcao = Integer.parseInt(args[0]);
+        opcao = Integer.parseInt(args[0]); //Opção que será escolhida pelo usuário
 
-        switch (opcao) 
+        switch (opcao) //Chama função de acordo com o que o usuário digitou
         {
             case 0:
                 selec.finalizar();
