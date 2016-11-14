@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 public class Comunica extends Thread {
     private int porta;
     private String adress;
+    private boolean verifica = false;
     
     public Comunica(String Adress, int porta)
     {
@@ -27,6 +28,10 @@ public class Comunica extends Thread {
         this.adress = Adress;
     }
     
+    public boolean getVerifica()
+    {
+        return this.verifica;
+    }
 
     public void run(){
         
@@ -36,12 +41,12 @@ public class Comunica extends Thread {
         InetAddress adress1;
         String msg;
         byte vet[] = new byte[100];
-        msg = new String("Teste de falha PORRAAAAA!!");
+        msg = new String("Teste de falha!!");
         vet = msg.getBytes();
         
         
         try {
-            boolean verifica = false;
+            
             soc = new DatagramSocket();
             adress1 = InetAddress.getByName(this.adress);
             
@@ -51,16 +56,15 @@ public class Comunica extends Thread {
             while (true) {
                 System.out.println("Enviou o pacote");
                 soc.send(pct);
-                verifica = false;
+                this.verifica = false;
                 soc.receive(pct);
-                verifica = true;
-                Thread.sleep(3000);
+                this.verifica = true;
+                //Thread.sleep(3000);
                 System.out.println("Recebeu o pacote");
                 soc.close();
                 System.out.println("Encerrou o socket");
             }
         } catch (IOException iOException) {
-        } catch (InterruptedException interruptedException) {
         }
         
 

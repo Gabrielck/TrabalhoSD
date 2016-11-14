@@ -14,18 +14,9 @@ import java.util.Scanner;
 public class Servidor {
 
     public static void main(String[] args) throws Exception {
-
-        int porta;
-
-        String adress;
-
-        System.out.println("Digite o número do servidor: ");
-        Scanner entrada = new Scanner(System.in);
-        adress = entrada.nextLine();
-        porta = 2007;
         
-        Comunica vrau;
-        vrau = new Comunica(adress, porta);
+        Thread2 vrau;
+        vrau = new Thread2();
         System.out.println("Passou os parametros");
         vrau.start();
         
