@@ -53,11 +53,11 @@ public class Thread2 extends Thread {
         
             String msg;
         
-            msg = new String("O servidor caiu. Desculpe o transtorno :)!!");
+            msg = new String("O servidor está fora. Desculpe o transtorno :)!!");
 
                 try {
                     // AQUI VAI O IP DO CLIENTE !!!!!!!
-                    soc = new Socket(adress, porta-1);
+                    soc = new Socket("192.168.9.4", porta-1);
                     
                     escreve = new ObjectOutputStream(soc.getOutputStream());
                     
@@ -68,10 +68,11 @@ public class Thread2 extends Thread {
                     System.out.println("Enviou a mensagem ao cliente");
                     
                     soc.close();
-                } catch (IOException iOException) {
+                } catch (IOException e) {
+                    //e.printStackTrace();
                 }
-                System.out.println("Saiu do programa");
-                System.exit(0);
+                //System.out.println("Saiu do programa");
+                //System.exit(0);
             }
         }
     }
